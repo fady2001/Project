@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Stack;
 
 enum ShapeType {LINE, OVAL, RECTANGLE};
 
@@ -11,7 +12,8 @@ public class Paint extends Applet {
     private int y1;
     private int x2;
     private int y2;
-
+    
+    private Stack<Shape> undoStack;
     private ArrayList<Shape> shapes;
     private Shape currentShape;
 
@@ -20,9 +22,12 @@ public class Paint extends Applet {
     private Color color = Color.BLACK;
     private ShapeType shapeType = ShapeType.LINE;
 
+    private boolean redoAll = false;
+
     @Override
     public void init() {
         shapes = new ArrayList<Shape>();
+        undoStack = new Stack<Shape>();
 
         class MouseHandler extends MouseAdapter {
             public void mousePressed(MouseEvent e) {
@@ -114,6 +119,34 @@ public class Paint extends Applet {
     public void setShapes(ArrayList<Shape> shapes) {
         this.shapes = shapes;
         repaint();
+    }
+
+    public boolean undo() {
+        if (shapes.size() > 0) {
+            undoStack.push(shapes.remove(shapes.size() - 1));
+            repaint();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean redo() {
+        if (undoStack.size() > 0) {
+            if (redoAll) {
+                while(undoStack.size() > 0) {
+                    shapes.add(undoStack.pop());
+                }
+            }
+            else
+                shapes.add(undoStack.pop());
+            repaint();
+            return true;
+        }
+        return false;
+    }
+
+    public void setRedoAll(boolean redoAll) {
+        this.redoAll = redoAll;
     }
 }
 

@@ -75,6 +75,7 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Undo");
+                paintApp.undo();
             }
         });
 
@@ -82,6 +83,7 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Redo");
+                paintApp.redo();
             }
         });
 
@@ -92,6 +94,8 @@ public class ControlBar {
                 Graphics g = paintApp.getGraphics();
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, paintApp.getWidth(), paintApp.getHeight());
+                while(paintApp.undo());
+                paintApp.setRedoAll(true);
             }
         });
 
