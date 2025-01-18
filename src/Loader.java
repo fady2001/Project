@@ -36,16 +36,15 @@ public class Loader {
                             new Color(Integer.parseInt(splitted[5])), 
                             Boolean.parseBoolean(splitted[6]), 
                             Boolean.parseBoolean(splitted[7])
-                            )
+                        )
                     );
                 } else if (splitted[0].equals("Freehand")) {
                     ArrayList<Point> points = new ArrayList<Point>();
-                    for (int i = 1; i < splitted.length - 1; i += 2) {
+                    for (int i = 1; i < splitted.length - 2; i += 2) {
                         points.add(new Point(Integer.parseInt(splitted[i]), Integer.parseInt(splitted[i + 1])));
                     }
                     shapes.add(new Freehand(points, new Color(Integer.parseInt(splitted[splitted.length - 1]))));
                 }
-                
             }
             reader.close();
         } catch (FileNotFoundException e) {
