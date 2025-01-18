@@ -44,11 +44,11 @@ public class Paint extends Applet {
                 y2 = e.getY();
                 switch (shapeType) {
                     case LINE:
-                        currentShape = new Line(x1, y1, x2, y2, color);
+                        currentShape = new Line(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case OVAL:
                         currentShape = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
-                                Math.abs(y2 - y1), color);
+                                Math.abs(y2 - y1), color, filled, dotted);
                         break;
                     case FREEHAND:
                         freehandPoints.add(new Point(x2, y2));

@@ -14,9 +14,29 @@ public class Loader {
                 String data = reader.nextLine();
                 String[] splitted = data.split(":");
                 if (splitted[0].equals("Line")) {
-                    shapes.add(new Line(Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2]), Integer.parseInt(splitted[3]), Integer.parseInt(splitted[4]), new Color(Integer.parseInt(splitted[5]))));
+                    shapes.add(
+                        new Line(
+                            Integer.parseInt(splitted[1]), 
+                            Integer.parseInt(splitted[2]), 
+                            Integer.parseInt(splitted[3]), 
+                            Integer.parseInt(splitted[4]), 
+                            new Color(Integer.parseInt(splitted[5])), 
+                            Boolean.parseBoolean(splitted[6]), 
+                            Boolean.parseBoolean(splitted[7])
+                        )
+                    );
                 } else if (splitted[0].equals("Oval")) {
-                    shapes.add(new Oval(Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2]), Integer.parseInt(splitted[3]), Integer.parseInt(splitted[4]), new Color(Integer.parseInt(splitted[5]))));
+                    shapes.add(
+                        new Oval(
+                            Integer.parseInt(splitted[1]), 
+                            Integer.parseInt(splitted[2]), 
+                            Integer.parseInt(splitted[3]), 
+                            Integer.parseInt(splitted[4]), 
+                            new Color(Integer.parseInt(splitted[5])), 
+                            Boolean.parseBoolean(splitted[6]), 
+                            Boolean.parseBoolean(splitted[7])
+                            )
+                    );
                 }
             }
             reader.close();

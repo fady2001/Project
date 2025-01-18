@@ -170,20 +170,28 @@ public class ControlBar {
         filled.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (filled.getState())
+                if (filled.getState()) {
                     System.out.println("Filled");
-                else
+                    paintApp.setFilled(true);
+                }
+                else {
                     System.out.println("Not Filled");
+                    paintApp.setFilled(false);
+                }
             }
         });
 
         dotted.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (dotted.getState())
+                if (dotted.getState()) {
                     System.out.println("Dotted");
-                else
+                    paintApp.setDotted(true);
+                }
+                else {
                     System.out.println("Not Dotted");
+                    paintApp.setDotted(false);
+                }
             }
         });
 
