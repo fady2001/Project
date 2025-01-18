@@ -5,14 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Stack;
 
-enum ShapeType {
-    LINE, OVAL, RECTANGLE, FREEHAND
-};
-
 public class Paint extends Applet {
-    public static final int MAX_X = 700;
-    public static final int MAX_Y = 700;
-
     private int x1;
     private int y1;
     private int x2;
@@ -26,7 +19,7 @@ public class Paint extends Applet {
     private boolean filled = false;
     private boolean dotted = false;
     private Color color = Color.BLACK;
-    private ShapeType shapeType = ShapeType.FREEHAND;
+    private Constants.ShapeType shapeType = Constants.ShapeType.FREEHAND;
 
     private boolean redoAll = false;
 
@@ -40,7 +33,7 @@ public class Paint extends Applet {
             public void mousePressed(MouseEvent e) {
                 x1 = e.getX();
                 y1 = e.getY();
-                if (shapeType == ShapeType.FREEHAND) {
+                if (shapeType == Constants.ShapeType.FREEHAND) {
                     freehandPoints.clear();
                     freehandPoints.add(new Point(x1, y1));
                 }
@@ -67,7 +60,7 @@ public class Paint extends Applet {
             }
 
             public void mouseReleased(MouseEvent e) {
-                if (shapeType == ShapeType.FREEHAND) {
+                if (shapeType == Constants.ShapeType.FREEHAND) {
                     shapes.add(new Freehand(freehandPoints, color));
                     freehandPoints = new ArrayList<Point>();
                 } else if (currentShape != null) {
@@ -93,7 +86,7 @@ public class Paint extends Applet {
         for (Shape shape : shapes) {
             shape.draw(g);
         }
-        if (shapeType == ShapeType.FREEHAND) {
+        if (shapeType == Constants.ShapeType.FREEHAND) {
             for (int i = 0; i < freehandPoints.size() - 1; i++) {
                 Point p1 = freehandPoints.get(i);
                 Point p2 = freehandPoints.get(i + 1);
@@ -129,11 +122,11 @@ public class Paint extends Applet {
         return color;
     }
 
-    public void setShape(ShapeType shapeType) {
+    public void setShape(Constants.ShapeType shapeType) {
         this.shapeType = shapeType;
     }
 
-    public ShapeType getShape() {
+    public Constants.ShapeType getShape() {
         return shapeType;
     }
 
@@ -181,7 +174,7 @@ class Main {
         Frame frame = new Frame();
         app.init();
         frame.add(app);
-        frame.setSize(Paint.MAX_X, Paint.MAX_Y);
+        frame.setSize(Constants.MAX_X, Constants.MAX_Y);
         frame.setVisible(true);
     }
 }

@@ -191,7 +191,7 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Line");
-                paintApp.setShape(ShapeType.LINE);
+                paintApp.setShape(Constants.ShapeType.LINE);
             }
         });
 
@@ -199,7 +199,7 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Oval");
-                paintApp.setShape(ShapeType.OVAL);
+                paintApp.setShape(Constants.ShapeType.OVAL);
             }
         });
     }
