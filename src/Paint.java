@@ -2,17 +2,23 @@ import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Stack;
 
-enum ShapeType {LINE, OVAL, RECTANGLE};
+enum ShapeType {
+    LINE, OVAL, RECTANGLE
+};
 
 public class Paint extends Applet {
+    public static final int MAX_X = 700;
+    public static final int MAX_Y = 700;
+
     private int x1;
     private int y1;
     private int x2;
     private int y2;
-    
+
     private Stack<Shape> undoStack;
     private ArrayList<Shape> shapes;
     private Shape currentShape;
@@ -24,8 +30,16 @@ public class Paint extends Applet {
 
     private boolean redoAll = false;
 
+    private BufferedImage bufferedImage;
+    private final GraphicsConfiguration gConfig = GraphicsEnvironment
+    .getLocalGraphicsEnvironment().getDefaultScreenDevice()
+    .getDefaultConfiguration();
+
+
     @Override
     public void init() {
+        bufferedImage = new BufferedImage(MAX_X, MAX_Y, BufferedImage.TYPE_INT_ARGB);
+
         shapes = new ArrayList<Shape>();
         undoStack = new Stack<Shape>();
 
@@ -43,7 +57,8 @@ public class Paint extends Applet {
                         currentShape = new Line(x1, y1, x2, y2, color);
                         break;
                     case OVAL:
-                        currentShape = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1), Math.abs(y2 - y1), color);
+                        currentShape = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                                Math.abs(y2 - y1), color);
                         break;
                     default:
                         break;
@@ -133,11 +148,11 @@ public class Paint extends Applet {
     public boolean redo() {
         if (undoStack.size() > 0) {
             if (redoAll) {
-                while(undoStack.size() > 0) {
+                while (undoStack.size() > 0) {
                     shapes.add(undoStack.pop());
                 }
-            }
-            else
+                redoAll = false;
+            } else
                 shapes.add(undoStack.pop());
             repaint();
             return true;
@@ -156,7 +171,7 @@ class Main {
         Frame frame = new Frame();
         app.init();
         frame.add(app);
-        frame.setSize(700, 700);
+        frame.setSize(Paint.MAX_X, Paint.MAX_Y);
         frame.setVisible(true);
     }
 }
