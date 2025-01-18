@@ -2,12 +2,11 @@ import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Stack;
 
 enum ShapeType {
-    LINE, OVAL, RECTANGLE
+    LINE, OVAL, RECTANGLE, FREEHAND
 };
 
 public class Paint extends Applet {
@@ -22,31 +21,29 @@ public class Paint extends Applet {
     private Stack<Shape> undoStack;
     private ArrayList<Shape> shapes;
     private Shape currentShape;
+    private ArrayList<Point> freehandPoints;
 
     private boolean filled = false;
     private boolean dotted = false;
     private Color color = Color.BLACK;
-    private ShapeType shapeType = ShapeType.LINE;
+    private ShapeType shapeType = ShapeType.FREEHAND;
 
     private boolean redoAll = false;
 
-    private BufferedImage bufferedImage;
-    private final GraphicsConfiguration gConfig = GraphicsEnvironment
-    .getLocalGraphicsEnvironment().getDefaultScreenDevice()
-    .getDefaultConfiguration();
-
-
     @Override
     public void init() {
-        bufferedImage = new BufferedImage(MAX_X, MAX_Y, BufferedImage.TYPE_INT_ARGB);
-
         shapes = new ArrayList<Shape>();
         undoStack = new Stack<Shape>();
+        freehandPoints = new ArrayList<Point>();
 
         class MouseHandler extends MouseAdapter {
             public void mousePressed(MouseEvent e) {
                 x1 = e.getX();
                 y1 = e.getY();
+                if (shapeType == ShapeType.FREEHAND) {
+                    freehandPoints.clear();
+                    freehandPoints.add(new Point(x1, y1));
+                }
             }
 
             public void mouseDragged(MouseEvent e) {
@@ -60,6 +57,9 @@ public class Paint extends Applet {
                         currentShape = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color);
                         break;
+                    case FREEHAND:
+                        freehandPoints.add(new Point(x2, y2));
+                        break;
                     default:
                         break;
                 }
@@ -67,13 +67,16 @@ public class Paint extends Applet {
             }
 
             public void mouseReleased(MouseEvent e) {
-                if (currentShape != null) {
+                if (shapeType == ShapeType.FREEHAND) {
+                    shapes.add(new Freehand(freehandPoints, color));
+                    freehandPoints = new ArrayList<Point>();
+                } else if (currentShape != null) {
                     x2 = e.getX();
                     y2 = e.getY();
                     shapes.add(currentShape);
                     currentShape = null;
-                    repaint();
                 }
+                repaint();
             }
         }
         MouseHandler mousehndl = new MouseHandler();
@@ -90,7 +93,14 @@ public class Paint extends Applet {
         for (Shape shape : shapes) {
             shape.draw(g);
         }
-        if (currentShape != null) {
+        if (shapeType == ShapeType.FREEHAND) {
+            for (int i = 0; i < freehandPoints.size() - 1; i++) {
+                Point p1 = freehandPoints.get(i);
+                Point p2 = freehandPoints.get(i + 1);
+                g.setColor(color);
+                g.drawLine(p1.x, p1.y, p2.x, p2.y);
+            }
+        } else if (currentShape != null) {
             currentShape.draw(g);
         }
     }
