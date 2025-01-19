@@ -234,7 +234,7 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Eraser");
-                paintApp.setShape(Constants.ShapeType.RECTANGLE);
+                paintApp.setShape(Constants.ShapeType.ERASER);
             }
         });
     }
