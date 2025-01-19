@@ -26,6 +26,8 @@ public class ControlBar {
     private Button ovalBtn;
     private Button rectangleBtn;
 
+    private Button eraserBtn;
+
     public ControlBar(Paint paintApp){
         this.paintApp = paintApp;
 
@@ -47,6 +49,8 @@ public class ControlBar {
         lineBtn = new Button("Line");
         ovalBtn = new Button("Oval");
         rectangleBtn = new Button("Rectangle");
+
+        eraserBtn = new Button("Eraser");
     }
 
     public void add(){
@@ -71,6 +75,8 @@ public class ControlBar {
         paintApp.add(lineBtn);
         paintApp.add(ovalBtn);
         paintApp.add(rectangleBtn);
+
+        paintApp.add(eraserBtn);
     }
 
     public void buttonHandlers(){
@@ -220,6 +226,14 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Rectangle");
+                paintApp.setShape(Constants.ShapeType.RECTANGLE);
+            }
+        });
+
+        eraserBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Eraser");
                 paintApp.setShape(Constants.ShapeType.RECTANGLE);
             }
         });

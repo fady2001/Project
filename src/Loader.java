@@ -38,6 +38,18 @@ public class Loader {
                             Boolean.parseBoolean(splitted[7])
                         )
                     );
+                } else if (splitted[0].equals("Rectangle")) {
+                    shapes.add(
+                        new Rectangle(
+                            Integer.parseInt(splitted[1]), 
+                            Integer.parseInt(splitted[2]), 
+                            Integer.parseInt(splitted[3]), 
+                            Integer.parseInt(splitted[4]), 
+                            new Color(Integer.parseInt(splitted[5])), 
+                            Boolean.parseBoolean(splitted[6]), 
+                            Boolean.parseBoolean(splitted[7])
+                        )
+                    );
                 } else if (splitted[0].equals("Freehand")) {
                     ArrayList<Point> points = new ArrayList<Point>();
                     for (int i = 1; i < splitted.length - 2; i += 2) {
