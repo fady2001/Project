@@ -2,8 +2,12 @@ import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Stack;
+
+import javax.imageio.ImageIO;
 
 public class Paint extends Applet {
     private int x1;
@@ -23,8 +27,12 @@ public class Paint extends Applet {
 
     private boolean redoAll = false;
 
+    private Image bufferedImage;
+
     @Override
     public void init() {
+        bufferedImage = Toolkit.getDefaultToolkit().getImage("gfglogo.png");
+
         shapes = new ArrayList<Shape>();
         undoStack = new Stack<Shape>();
         freehandPoints = new ArrayList<Point>();
@@ -96,6 +104,9 @@ public class Paint extends Applet {
         } else if (currentShape != null) {
             currentShape.draw(g);
         }
+        if (bufferedImage != null) {
+            g.drawImage(bufferedImage, 0, 0, this);
+        }
     }
 
     public void setFilled(boolean filled) {
@@ -165,6 +176,40 @@ public class Paint extends Applet {
 
     public void setRedoAll(boolean redoAll) {
         this.redoAll = redoAll;
+    }
+
+    public void saveAppletAsImage() {
+        try {
+            // Create a BufferedImage with the size of the applet
+            BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics graphics = bufferedImage.getGraphics();
+
+            // Render the applet into the BufferedImage
+            this.paint(graphics);
+
+            // Save the BufferedImage as a PNG file
+            File outputFile = new File("appletImage.png");
+            ImageIO.write(bufferedImage, "png", outputFile);
+
+            System.out.println("Applet saved as image: " + outputFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadAppletFromImage() {
+        try {
+            // Load the image from the file
+            File inputFile = new File("appletImage.png");
+            bufferedImage = ImageIO.read(inputFile);
+
+            // Repaint the applet
+            repaint();
+
+            System.out.println("Applet loaded from image: " + inputFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

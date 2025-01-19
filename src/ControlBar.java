@@ -103,6 +103,7 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Save");
+                paintApp.saveAppletAsImage();
             }
         });
 
@@ -110,7 +111,8 @@ public class ControlBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Load");
-                paintApp.setShapes(Loader.fileLoader("shapes.txt"));
+                // paintApp.setShapes(Loader.fileLoader("shapes.txt"));
+                paintApp.loadAppletFromImage();
             }
         });
 
