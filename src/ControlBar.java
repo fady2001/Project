@@ -24,6 +24,7 @@ public class ControlBar {
 
     private Button lineBtn;
     private Button ovalBtn;
+    private Button rectangleBtn;
 
     public ControlBar(Paint paintApp){
         this.paintApp = paintApp;
@@ -45,6 +46,7 @@ public class ControlBar {
 
         lineBtn = new Button("Line");
         ovalBtn = new Button("Oval");
+        rectangleBtn = new Button("Rectangle");
     }
 
     public void add(){
@@ -68,6 +70,7 @@ public class ControlBar {
 
         paintApp.add(lineBtn);
         paintApp.add(ovalBtn);
+        paintApp.add(rectangleBtn);
     }
 
     public void buttonHandlers(){
@@ -210,6 +213,14 @@ public class ControlBar {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Oval");
                 paintApp.setShape(Constants.ShapeType.OVAL);
+            }
+        });
+
+        rectangleBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Rectangle");
+                paintApp.setShape(Constants.ShapeType.RECTANGLE);
             }
         });
     }

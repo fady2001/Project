@@ -58,17 +58,15 @@ class Line extends Shape {
 
 class Freehand extends Shape {
     private ArrayList<Point> points;
-    private Color color;
 
     public Freehand(ArrayList<Point> points, Color color) {
         super(points.get(0).x, points.get(0).y, color, false,false);
         this.points = new ArrayList<Point>(points);
-        this.color = color;
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(color);
+        g.setColor(getColor());
         for (int i = 0; i < points.size() - 1; i++) {
             Point p1 = points.get(i);
             Point p2 = points.get(i + 1);
@@ -82,7 +80,7 @@ class Freehand extends Shape {
         for (Point p : points) {
             sb.append(p.x).append(":").append(p.y).append(":");
         }
-        sb.append(color.getRGB());
+        sb.append(getColor().getRGB());
         return sb.toString();
     }
 }
@@ -143,31 +141,31 @@ class Rectangle extends Shape {
     }
 }
 
-class RoundRectangle extends Rectangle {
-    private int arcWidth;
-    private int arcHeight;
+// class RoundRectangle extends Rectangle {
+//     private int arcWidth;
+//     private int arcHeight;
 
-    RoundRectangle(int x1, int y1, int width, int height, int arcWidth, int arcHeight, Color color, boolean filled, boolean dotted) {
-        super(x1, y1, width, height, color, filled, dotted);
-        this.arcWidth = arcWidth;
-        this.arcHeight = arcHeight;
-    }
+//     RoundRectangle(int x1, int y1, int width, int height, int arcWidth, int arcHeight, Color color, boolean filled, boolean dotted) {
+//         super(x1, y1, width, height, color, filled, dotted);
+//         this.arcWidth = arcWidth;
+//         this.arcHeight = arcHeight;
+//     }
 
-    @Override
-    public void draw(Graphics g) {
-        g.setColor(getColor());
-        if (filled == false && dotted == false)
-            g.drawRoundRect(getX1(), getY1(), width, height, arcWidth, arcHeight);
-        else if (filled = true)
-            g.fillRoundRect(getX1(), getY1(), width, height, arcWidth, arcHeight);
-        else if (dotted = true)
-            System.out.println("Dotted");
-    }
+//     @Override
+//     public void draw(Graphics g) {
+//         g.setColor(getColor());
+//         if (filled == false && dotted == false)
+//             g.drawRoundRect(getX1(), getY1(), width, height, arcWidth, arcHeight);
+//         else if (filled = true)
+//             g.fillRoundRect(getX1(), getY1(), width, height, arcWidth, arcHeight);
+//         else if (dotted = true)
+//             System.out.println("Dotted");
+//     }
 
-    @Override
-    public String serialize() {
-        return "RoundRectangle:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + arcWidth + ":" + arcHeight + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
-    }
-}
+//     @Override
+//     public String serialize() {
+//         return "RoundRectangle:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + arcWidth + ":" + arcHeight + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
+//     }
+// }
 
 

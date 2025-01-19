@@ -58,6 +58,10 @@ public class Paint extends Applet {
                         currentShape = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
+                    case RECTANGLE:
+                        currentShape = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                                Math.abs(y2 - y1), color, filled, dotted);
+                        break;
                     case FREEHAND:
                         freehandPoints.add(new Point(x2, y2));
                         break;
