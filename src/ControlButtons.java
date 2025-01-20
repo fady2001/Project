@@ -11,9 +11,10 @@ public class ControlButtons {
     private Button undo;
     private Button redo;
     private Button clear;
-    private Button save;
-    private Button load;
-    private Button serialize;
+    private Button saveToImg;
+    private Button loadFromImg;
+    private Button saveToFile;
+    private Button loadFromFile;
 
     private Checkbox filled;
     private Checkbox dotted;
@@ -22,10 +23,10 @@ public class ControlButtons {
         undo = new Button("Undo");
         redo = new Button("Redo");
         clear = new Button("Clear");
-        save = new Button("Save");
-        load = new Button("Load");
-        serialize = new Button("Serialize");
-        
+        saveToImg = new Button("Save to Image");    
+        loadFromImg = new Button("Load from Image");
+        saveToFile = new Button("Save to File");
+        loadFromFile = new Button("Load from File"); 
         filled = new Checkbox("Filled");
         dotted = new Checkbox("Dotted");
     }
@@ -34,9 +35,10 @@ public class ControlButtons {
         paintApp.add(undo);
         paintApp.add(redo);
         paintApp.add(clear);
-        paintApp.add(save);
-        paintApp.add(load);
-        paintApp.add(serialize);
+        paintApp.add(saveToImg);
+        paintApp.add(loadFromImg);
+        paintApp.add(saveToFile);
+        paintApp.add(loadFromFile);
         paintApp.add(filled);
         paintApp.add(dotted);
     }
@@ -70,7 +72,7 @@ public class ControlButtons {
             }
         });
 
-        save.addActionListener(new ActionListener() {
+        saveToImg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Save");
@@ -78,16 +80,23 @@ public class ControlButtons {
             }
         });
 
-        load.addActionListener(new ActionListener() {
+        loadFromImg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Load");
-                // paintApp.setShapes(Loader.fileLoader("shapes.txt"));
                 paintApp.loadAppletFromImage();
             }
         });
 
-        serialize.addActionListener(new ActionListener() {
+        loadFromFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Load");
+                paintApp.setShapes(Loader.fileLoader("shapes.txt"));
+            }
+        });
+
+        saveToFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] shapes = new String[paintApp.getShapes().size()];

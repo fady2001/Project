@@ -6,19 +6,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Stack;
-
 import javax.imageio.ImageIO;
-
+import java.awt.Point;
 public class Paint extends Applet {
     private int x1;
     private int y1;
     private int x2;
     private int y2;
 
-    private Stack<Shape> undoStack;
-    private ArrayList<Shape> shapes;
-    private Shape currentShape;
-    private ArrayList<Point> freehandPoints;
+    private Stack<Shape> undoStack = new Stack<Shape>();
+    private ArrayList<Shape> shapes = new ArrayList<Shape>();
+    private Shape currentShape = null;
+    private ArrayList<Point> freehandPoints = new ArrayList<Point>();
 
     private boolean filled = false;
     private boolean dotted = false;
@@ -27,14 +26,12 @@ public class Paint extends Applet {
 
     private boolean redoAll = false;
 
-    private Image bufferedImage;
+    private Image bufferedImage = null;
+
+    ControlBar controlBar = new ControlBar(this);
 
     @Override
     public void init() {
-        shapes = new ArrayList<Shape>();
-        undoStack = new Stack<Shape>();
-        freehandPoints = new ArrayList<Point>();
-
         class MouseHandler extends MouseAdapter {
             public void mousePressed(MouseEvent e) {
                 x1 = e.getX();
@@ -91,7 +88,6 @@ public class Paint extends Applet {
         addMouseListener(mouseHandler);
         addMouseMotionListener(mouseHandler);
 
-        ControlBar controlBar = new ControlBar(this);
         controlBar.add();
         controlBar.buttonHandlers();
     }
