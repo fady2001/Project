@@ -108,10 +108,15 @@ class Oval extends Shape {
         g.setColor(getColor());
         if (filled == false && dotted == false)
             g.drawOval(getX1(), getY1(), width, height);
-        else if (filled = true)
+        else if (filled == true)
             g.fillOval(getX1(), getY1(), width, height);
-        else if (dotted = true)
+        else if (dotted == true){
             System.out.println("Dotted");
+            g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+            g.drawOval(getX1(), getY1(), width, height);
+            g.setStroke(new BasicStroke());
+            
+        }
     }
 
     @Override
@@ -136,10 +141,14 @@ class Rectangle extends Shape {
         g.setColor(getColor());
         if (filled == false && dotted == false)
             g.drawRect(getX1(), getY1(), width, height);
-        else if (filled = true)
+        else if (filled == true)
             g.fillRect(getX1(), getY1(), width, height);
-        else if (dotted = true)
+        else if (dotted == true){
             System.out.println("Dotted");
+            g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+            g.drawRect(getX1(), getY1(), width, height);
+            g.setStroke(new BasicStroke());
+        }
     }
 
     @Override
