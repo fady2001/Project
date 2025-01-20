@@ -31,8 +31,6 @@ public class Paint extends Applet {
 
     @Override
     public void init() {
-        bufferedImage = Toolkit.getDefaultToolkit().getImage("gfglogo.png");
-
         shapes = new ArrayList<Shape>();
         undoStack = new Stack<Shape>();
         freehandPoints = new ArrayList<Point>();
@@ -45,6 +43,7 @@ public class Paint extends Applet {
                     freehandPoints.clear();
                     freehandPoints.add(new Point(x1, y1));
                 }
+                System.out.println("Mouse pressed at " + x1 + ", " + y1);
             }
 
             public void mouseDragged(MouseEvent e) {
@@ -88,9 +87,9 @@ public class Paint extends Applet {
                 repaint();
             }
         }
-        MouseHandler mousehndl = new MouseHandler();
-        addMouseListener(mousehndl);
-        addMouseMotionListener(mousehndl);
+        MouseHandler mouseHandler = new MouseHandler();
+        addMouseListener(mouseHandler);
+        addMouseMotionListener(mouseHandler);
 
         ControlBar controlBar = new ControlBar(this);
         controlBar.add();
@@ -100,7 +99,7 @@ public class Paint extends Applet {
     @Override
     public void paint(Graphics g) {
         for (Shape shape : shapes) {
-            shape.draw(g);
+            shape.draw((Graphics2D)g);
         }
         if (shapeType == Constants.ShapeType.FREEHAND) {
             for (int i = 0; i < freehandPoints.size() - 1; i++) {
@@ -110,7 +109,7 @@ public class Paint extends Applet {
                 g.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
         } else if (currentShape != null) {
-            currentShape.draw(g);
+            currentShape.draw((Graphics2D)g);
         }
         if (bufferedImage != null) {
             g.drawImage(bufferedImage, 0, 0, this);
@@ -190,7 +189,7 @@ public class Paint extends Applet {
         try {
             // Create a BufferedImage with the size of the applet
             BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics graphics = bufferedImage.getGraphics();
+            Graphics2D graphics = (Graphics2D)bufferedImage.getGraphics();
 
             // Render the applet into the BufferedImage
             this.paint(graphics);

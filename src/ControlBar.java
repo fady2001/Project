@@ -1,11 +1,13 @@
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 
 public class ControlBar {
     private Paint paintApp;
@@ -61,7 +63,7 @@ public class ControlBar {
         paintApp.add(load);
         paintApp.add(serialize);
         paintApp.add(filled);
-        paintApp.add(dotted);
+        paintApp.add(dotted,Component.BOTTOM_ALIGNMENT);
 
         colorBtns[0].setBackground(Color.BLACK);
         colorBtns[1].setBackground(Color.RED);

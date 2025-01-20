@@ -1,5 +1,6 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.awt.Point;
 
@@ -10,7 +11,7 @@ public abstract class Shape {
     boolean filled = false;
     boolean dotted = false;
     
-    public abstract void draw(Graphics g);
+    public abstract void draw(Graphics2D g);
     public abstract String serialize();
 
     Shape (int x1, int y1, Color color, boolean filled, boolean dotted) {
@@ -45,9 +46,15 @@ class Line extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(getColor());
-        g.drawLine(getX1(), getY1(), x2, y2);
+        if (dotted == false)
+            g.drawLine(getX1(), getY1(), x2, y2);
+        else if (dotted = true) {
+            g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
+            g.drawLine(getX1(), getY1(), x2, y2);
+            g.setStroke(new BasicStroke());
+        }
     }
 
     @Override
@@ -65,7 +72,7 @@ class Freehand extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(getColor());
         for (int i = 0; i < points.size() - 1; i++) {
             Point p1 = points.get(i);
@@ -96,7 +103,7 @@ class Oval extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         System.out.println("Drawing oval: "+filled);
         g.setColor(getColor());
         if (filled == false && dotted == false)
@@ -125,7 +132,7 @@ class Rectangle extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(getColor());
         if (filled == false && dotted == false)
             g.drawRect(getX1(), getY1(), width, height);
