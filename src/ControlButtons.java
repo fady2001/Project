@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.CheckboxGroup;
 
 public class ControlButtons {
     private Button undo;
@@ -16,6 +17,7 @@ public class ControlButtons {
     private Button saveToFile;
     private Button loadFromFile;
 
+    private CheckboxGroup group;
     private Checkbox filled;
     private Checkbox dotted;
 
@@ -27,8 +29,9 @@ public class ControlButtons {
         loadFromImg = new Button("Load from Image");
         saveToFile = new Button("Save to File");
         loadFromFile = new Button("Load from File"); 
-        filled = new Checkbox("Filled");
-        dotted = new Checkbox("Dotted");
+        group = new CheckboxGroup();
+        filled = new Checkbox("Filled", group, true);
+        dotted = new Checkbox("Dotted", group, false);
     }
 
     public void add(Paint paintApp){
