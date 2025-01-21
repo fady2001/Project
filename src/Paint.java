@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import javax.imageio.ImageIO;
 import java.awt.Point;
+
 public class Paint extends Applet {
     private int x1;
     private int y1;
@@ -32,8 +33,6 @@ public class Paint extends Applet {
 
     @Override
     public void init() {
-        // make the screen white
-        setBackground(Color.WHITE);
         class MouseHandler extends MouseAdapter {
             public void mousePressed(MouseEvent e) {
                 x1 = e.getX();
@@ -76,7 +75,6 @@ public class Paint extends Applet {
             public void mouseReleased(MouseEvent e) {
                 if (shapeType == Constants.ShapeType.FREEHAND) {
                     shapes.add(new Freehand(freehandPoints, color));
-                    freehandPoints = new ArrayList<>();
                 } else if (currentShape != null) {
                     x2 = e.getX();
                     y2 = e.getY();
