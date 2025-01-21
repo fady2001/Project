@@ -24,8 +24,6 @@ public class Paint extends Applet {
 
     private boolean redoAll = false;
 
-    private BufferedImage bufferedImage = null;
-
     ControlBar controlBar = new ControlBar(this);
 
     private Line reusableLine = new Line();
@@ -79,10 +77,6 @@ public class Paint extends Applet {
             }
 
             public void mouseReleased(MouseEvent e) {
-                if (shapeType == Constants.ShapeType.FREEHAND) {
-                    drawings.add(reusableFreehand);
-                    reusableFreehand = new Freehand();
-                } else {
                     if (dragged) {
                         dragged = false;
                         switch (shapeType) {
@@ -110,7 +104,6 @@ public class Paint extends Applet {
                                 break;
                         }
                     }
-                }
                 repaint();
             }
         }
@@ -246,7 +239,7 @@ public class Paint extends Applet {
         try {
 
             File inputFile = new File(filePath);
-            bufferedImage = ImageIO.read(inputFile);
+            BufferedImage bufferedImage = ImageIO.read(inputFile);
             drawings.add(new Image(bufferedImage, filePath));
 
             repaint();

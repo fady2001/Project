@@ -60,7 +60,6 @@ public class Loader {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
         return drawings;

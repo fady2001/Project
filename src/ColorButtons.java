@@ -28,7 +28,6 @@ public class ColorButtons {
         colorBtns[0].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Black");
                 paintApp.setColor(Color.BLACK);
             }
         });
@@ -36,7 +35,6 @@ public class ColorButtons {
         colorBtns[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Red");
                 paintApp.setColor(Color.RED);
             }
         });
@@ -44,7 +42,6 @@ public class ColorButtons {
         colorBtns[2].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Green");
                 paintApp.setColor(Color.GREEN);
             }
         });
@@ -52,7 +49,6 @@ public class ColorButtons {
         colorBtns[3].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Blue");
                 paintApp.setColor(Color.BLUE);
             }
         });
@@ -60,7 +56,6 @@ public class ColorButtons {
         colorBtns[4].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Yellow");
                 paintApp.setColor(Color.YELLOW);
             }
         });

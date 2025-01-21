@@ -12,7 +12,6 @@ public class Serializer {
                 System.out.println("File already exists.");
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
@@ -27,7 +26,6 @@ public class Serializer {
             writer.close();
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }

@@ -80,14 +80,12 @@ class Oval extends Shape {
 
     @Override
     public void draw(Graphics2D g) {
-        System.out.println("Drawing oval: " + filled);
         g.setColor(color);
         if (!filled && !dotted)
             g.drawOval(x1, y1, width, height);
         else if (filled)
             g.fillOval(x1, y1, width, height);
         else {
-            System.out.println("Dotted");
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
             g.drawOval(x1, y1, width, height);
             g.setStroke(new BasicStroke());
@@ -97,8 +95,6 @@ class Oval extends Shape {
 
     @Override
     public String serialize() {
-        System.out.println("Oval:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled
-                + ":" + dotted);
         return "Oval:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
                 + dotted;
     }
@@ -130,7 +126,6 @@ class Rectangle extends Shape {
         else if (filled)
             g.fillRect(x1, y1, width, height);
         else {
-            System.out.println("Dotted");
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
             g.drawRect(x1, y1, width, height);
             g.setStroke(new BasicStroke());

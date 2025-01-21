@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d387cba-f1f4-4ff5-bfca-81698f245984" name="Changes" comment="" />
+    <list default="true" id="7d387cba-f1f4-4ff5-bfca-81698f245984" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/ColorButtons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ColorButtons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ControlButtons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ControlButtons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Eraser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Eraser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Freehand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Freehand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Image.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Loader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Paint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Paint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Serializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ShapesButtons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ShapesButtons.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,7 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1737449422125</updated>
       <workItem from="1737449423236" duration="12226000" />
-      <workItem from="1737496714075" duration="601000" />
+      <workItem from="1737496714075" duration="1468000" />
     </task>
     <servers />
   </component>

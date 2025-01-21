@@ -44,7 +44,6 @@ public class ControlButtons {
         undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Undo");
                 paintApp.undo();
             }
         });
@@ -52,7 +51,6 @@ public class ControlButtons {
         redo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Redo");
                 paintApp.redo();
             }
         });
@@ -60,7 +58,6 @@ public class ControlButtons {
         clear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clear");
                 Graphics g = paintApp.getGraphics();
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, paintApp.getWidth(), paintApp.getHeight());
@@ -72,7 +69,6 @@ public class ControlButtons {
         saveToImg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Save");
                 FileDialog fileDialog = new FileDialog((Frame) null, "Save into");
                 fileDialog.setMode(FileDialog.SAVE);
                 fileDialog.setVisible(true);
@@ -130,7 +126,6 @@ public class ControlButtons {
                     String filePath = directory + file;
                     System.out.println("Selected file: " + filePath);
                     String[] shapes = new String[paintApp.getDrawings().size()];
-                    System.out.println("Serialize");
                     for (int i = 0; i < paintApp.getDrawings().size(); i++) {
                         shapes[i] = paintApp.getDrawings().get(i).serialize();
                     }

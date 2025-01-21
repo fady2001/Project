@@ -29,7 +29,6 @@ public class ShapesButtons {
         lineBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Line");
                 paintApp.setShape(Constants.ShapeType.LINE);
             }
         });
@@ -37,7 +36,6 @@ public class ShapesButtons {
         ovalBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Oval");
                 paintApp.setShape(Constants.ShapeType.OVAL);
             }
         });
@@ -45,7 +43,6 @@ public class ShapesButtons {
         rectangleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Rectangle");
                 paintApp.setShape(Constants.ShapeType.RECTANGLE);
             }
         });
@@ -53,7 +50,6 @@ public class ShapesButtons {
         eraserBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Eraser");
                 paintApp.setShape(Constants.ShapeType.ERASER);
             }
         });
@@ -61,7 +57,6 @@ public class ShapesButtons {
         freehandBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Freehand");
                 paintApp.setShape(Constants.ShapeType.FREEHAND);
             }
         });

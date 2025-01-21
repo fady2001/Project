@@ -20,10 +20,6 @@ public class Freehand extends Drawing {
         points.add(p);
     }
 
-    public void clear() {
-        points.clear();
-    }
-
     @Override
     public void draw(Graphics2D g) {
         g.setColor(color);
