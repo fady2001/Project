@@ -4,42 +4,27 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.awt.Point;
 
-public abstract class Shape {
-    private int x1;
-    private int y1;
-    private Color color;
-    boolean filled;
-    boolean dotted;
-    
-    public abstract void draw(Graphics2D g);
-    public abstract String serialize();
+public abstract class Shape extends Drawing {
+    protected int x1;
+    protected int y1;
+    protected boolean filled;
+    protected boolean dotted;
 
-    Shape (int x1, int y1, Color color, boolean filled, boolean dotted) {
+    Shape(int x1, int y1, Color color, boolean filled, boolean dotted) {
+        super(color);
         this.x1 = x1;
         this.y1 = y1;
         this.color = color;
         this.filled = filled;
         this.dotted = dotted;
     }
-
-    public int getX1() {
-        return x1;
-    }
-
-    public int getY1() {
-        return y1;
-    }
-
-    public Color getColor() {
-        return color;
-    }
 }
 
 class Line extends Shape {
     private int x2;
     private int y2;
-    
-    Line(int x1, int y1, int x2, int y2, Color color,boolean filled, boolean dotted) {
+
+    Line(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
         this.x2 = x2;
         this.y2 = y2;
@@ -47,48 +32,19 @@ class Line extends Shape {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(getColor());
+        g.setColor(color);
         if (!dotted)
-            g.drawLine(getX1(), getY1(), x2, y2);
+            g.drawLine(x1, y1, x2, y2);
         else {
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
-            g.drawLine(getX1(), getY1(), x2, y2);
+            g.drawLine(x1, y1, x2, y2);
             g.setStroke(new BasicStroke());
         }
     }
 
     @Override
     public String serialize() {
-        return "Line:" + getX1() + ":" + getY1() + ":" + x2 + ":" + y2 + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
-    }
-}
-
-class Freehand extends Shape {
-    private ArrayList<Point> points;
-
-    public Freehand(ArrayList<Point> points, Color color) {
-        super(points.get(0).x, points.get(0).y, color, false,false);
-        this.points = new ArrayList<>(points);
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-        g.setColor(getColor());
-        for (int i = 0; i < points.size() - 1; i++) {
-            Point p1 = points.get(i);
-            Point p2 = points.get(i + 1);
-            g.drawLine(p1.x, p1.y, p2.x, p2.y);
-        }
-    }
-
-    @Override
-    public String serialize() {
-        StringBuilder sb = new StringBuilder("Freehand:");
-        for (Point p : points) {
-            sb.append(p.x).append(":").append(p.y).append(":");
-        }
-        sb.append(getColor().getRGB());
-        return sb.toString();
+        return "Line:" + x1 + ":" + y1 + ":" + x2 + ":" + y2 + ":" + color.getRGB() + ":" + filled + ":" + dotted;
     }
 }
 
@@ -104,29 +60,31 @@ class Oval extends Shape {
 
     @Override
     public void draw(Graphics2D g) {
-        System.out.println("Drawing oval: "+filled);
-        g.setColor(getColor());
+        System.out.println("Drawing oval: " + filled);
+        g.setColor(color);
         if (!filled && !dotted)
-            g.drawOval(getX1(), getY1(), width, height);
+            g.drawOval(x1, y1, width, height);
         else if (filled)
-            g.fillOval(getX1(), getY1(), width, height);
+            g.fillOval(x1, y1, width, height);
         else {
             System.out.println("Dotted");
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
-            g.drawOval(getX1(), getY1(), width, height);
+            g.drawOval(x1, y1, width, height);
             g.setStroke(new BasicStroke());
-            
+
         }
     }
 
     @Override
     public String serialize() {
-        System.out.println("Oval:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + getColor().getRGB()+":" + filled + ":" + dotted);
-        return "Oval:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
+        System.out.println("Oval:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled
+                + ":" + dotted);
+        return "Oval:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
+                + dotted;
     }
 }
 
-class Rectangle extends Shape { 
+class Rectangle extends Shape {
     protected int width;
     protected int height;
 
@@ -138,21 +96,52 @@ class Rectangle extends Shape {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(getColor());
+        g.setColor(color);
         if (!filled && !dotted)
-            g.drawRect(getX1(), getY1(), width, height);
+            g.drawRect(x1, y1, width, height);
         else if (filled)
-            g.fillRect(getX1(), getY1(), width, height);
+            g.fillRect(x1, y1, width, height);
         else {
             System.out.println("Dotted");
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
-            g.drawRect(getX1(), getY1(), width, height);
+            g.drawRect(x1, y1, width, height);
             g.setStroke(new BasicStroke());
         }
     }
 
     @Override
     public String serialize() {
-        return "Rectangle:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
+        return "Rectangle:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
+                + dotted;
+    }
+}
+
+class Freehand extends Drawing {
+    private ArrayList<Point> points;
+
+    public Freehand(ArrayList<Point> points, Color color) {
+        super(color);
+        this.points = new ArrayList<>(points);
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        g.setColor(color);
+        for (int i = 0; i < points.size() - 1; i++) {
+            Point p1 = points.get(i);
+            Point p2 = points.get(i + 1);
+            g.drawLine(p1.x, p1.y, p2.x, p2.y);
+        }
+
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder sb = new StringBuilder("Freehand:");
+        for (Point p : points) {
+            sb.append(p.x).append(":").append(p.y).append(":");
+        }
+        sb.append(color.getRGB());
+        return sb.toString();
     }
 }

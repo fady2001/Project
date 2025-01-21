@@ -15,9 +15,9 @@ public class Paint extends Applet {
     private int x2;
     private int y2;
 
-    private final Stack<Shape> undoStack = new Stack<>();
-    private ArrayList<Shape> shapes = new ArrayList<>();
-    private Shape currentShape = null;
+    private final Stack<Drawing> undoStack = new Stack<>();
+    private ArrayList<Drawing> drawings = new ArrayList<>();
+    private Drawing currentDrawing = null;
     private ArrayList<Point> freehandPoints = new ArrayList<>();
 
     private boolean filled = false;
@@ -49,19 +49,19 @@ public class Paint extends Applet {
                 y2 = e.getY();
                 switch (shapeType) {
                     case LINE:
-                        currentShape = new Line(x1, y1, x2, y2, color, filled, dotted);
+                        currentDrawing = new Line(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case OVAL:
-                        currentShape = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                        currentDrawing = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
                     case RECTANGLE:
-                        currentShape = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                        currentDrawing = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
                     case ERASER:
-                        currentShape = new Rectangle(x2, y2, 20, 20, Color.WHITE, true, false);
-                        shapes.add(currentShape);
+                        currentDrawing = new Rectangle(x2, y2, 20, 20, Color.WHITE, true, false);
+                        drawings.add(currentDrawing);
                         break;
                     case FREEHAND:
                         freehandPoints.add(new Point(x2, y2));
@@ -74,12 +74,12 @@ public class Paint extends Applet {
 
             public void mouseReleased(MouseEvent e) {
                 if (shapeType == Constants.ShapeType.FREEHAND) {
-                    shapes.add(new Freehand(freehandPoints, color));
-                } else if (currentShape != null) {
+                    drawings.add(new Freehand(freehandPoints, color));
+                } else if (currentDrawing != null) {
                     x2 = e.getX();
                     y2 = e.getY();
-                    shapes.add(currentShape);
-                    currentShape = null;
+                    drawings.add(currentDrawing);
+                    currentDrawing = null;
                 }
                 repaint();
             }
@@ -94,8 +94,8 @@ public class Paint extends Applet {
 
     @Override
     public void paint(Graphics g) {
-        for (Shape shape : shapes) {
-            shape.draw((Graphics2D)g);
+        for (Drawing drawing : drawings) {
+            drawing.draw((Graphics2D)g);
         }
         if (shapeType == Constants.ShapeType.FREEHAND) {
             for (int i = 0; i < freehandPoints.size() - 1; i++) {
@@ -104,8 +104,8 @@ public class Paint extends Applet {
                 g.setColor(color);
                 g.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
-        } else if (currentShape != null) {
-            currentShape.draw((Graphics2D)g);
+        } else if (currentDrawing != null) {
+            currentDrawing.draw((Graphics2D)g);
         }
         if (bufferedImage != null) {
             g.drawImage(bufferedImage, 0, 0, this);
@@ -128,18 +128,18 @@ public class Paint extends Applet {
         this.shapeType = shapeType;
     }
 
-    public ArrayList<Shape> getShapes() {
-        return shapes;
+    public ArrayList<Drawing> getDrawings() {
+        return drawings;
     }
 
-    public void setShapes(ArrayList<Shape> shapes) {
-        this.shapes = shapes;
+    public void setDrawings(ArrayList<Drawing> drawings) {
+        this.drawings = drawings;
         repaint();
     }
 
     public boolean undo() {
-        if (!shapes.isEmpty()) {
-            undoStack.push(shapes.remove(shapes.size() - 1));
+        if (!drawings.isEmpty()) {
+            undoStack.push(drawings.remove(drawings.size() - 1));
             repaint();
             return true;
         }
@@ -150,11 +150,11 @@ public class Paint extends Applet {
         if (!undoStack.isEmpty()) {
             if (redoAll) {
                 while (!undoStack.isEmpty()) {
-                    shapes.add(undoStack.pop());
+                    drawings.add(undoStack.pop());
                 }
                 redoAll = false;
             } else
-                shapes.add(undoStack.pop());
+                drawings.add(undoStack.pop());
             repaint();
         }
     }

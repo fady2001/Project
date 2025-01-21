@@ -114,7 +114,7 @@ public class ControlButtons {
                 if (directory != null && file != null) {
                     String filePath = directory + file;
                     System.out.println("Selected file: " + filePath);
-                    paintApp.setShapes(Loader.fileLoader(filePath+".txt"));
+                    paintApp.setDrawings(Loader.fileLoader(filePath+".txt"));
                 }
             }
         });
@@ -130,10 +130,10 @@ public class ControlButtons {
                 if (directory != null && file != null) {
                     String filePath = directory + file;
                     System.out.println("Selected file: " + filePath);
-                    String[] shapes = new String[paintApp.getShapes().size()];
+                    String[] shapes = new String[paintApp.getDrawings().size()];
                     System.out.println("Serialize");
-                    for (int i = 0; i < paintApp.getShapes().size(); i++) {
-                        shapes[i] = paintApp.getShapes().get(i).serialize();
+                    for (int i = 0; i < paintApp.getDrawings().size(); i++) {
+                        shapes[i] = paintApp.getDrawings().get(i).serialize();
                     }
                     Serializer.Serialize(shapes, filePath);
                 }

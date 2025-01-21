@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Loader {
-    public static ArrayList<Shape> fileLoader(String fileName) {
-        ArrayList<Shape> shapes = new ArrayList<Shape>();
+    public static ArrayList<Drawing> fileLoader(String fileName) {
+        ArrayList<Drawing> drawings = new ArrayList<>();
         try {
             File file = new File(fileName);
             Scanner reader = new Scanner(file);
@@ -15,7 +15,7 @@ public class Loader {
                 String data = reader.nextLine();
                 String[] splits = data.split(":");
                 if (splits[0].equals("Line")) {
-                    shapes.add(
+                    drawings.add(
                         new Line(
                             Integer.parseInt(splits[1]),
                             Integer.parseInt(splits[2]),
@@ -27,7 +27,7 @@ public class Loader {
                         )
                     );
                 } else if (splits[0].equals("Oval")) {
-                    shapes.add(
+                    drawings.add(
                         new Oval(
                             Integer.parseInt(splits[1]),
                             Integer.parseInt(splits[2]),
@@ -39,7 +39,7 @@ public class Loader {
                         )
                     );
                 } else if (splits[0].equals("Rectangle")) {
-                    shapes.add(
+                    drawings.add(
                         new Rectangle(
                             Integer.parseInt(splits[1]),
                             Integer.parseInt(splits[2]),
@@ -55,7 +55,7 @@ public class Loader {
                     for (int i = 1; i < splits.length - 2; i += 2) {
                         points.add(new Point(Integer.parseInt(splits[i]), Integer.parseInt(splits[i + 1])));
                     }
-                    shapes.add(new Freehand(points, new Color(Integer.parseInt(splits[splits.length - 1]))));
+                    drawings.add(new Freehand(points, new Color(Integer.parseInt(splits[splits.length - 1]))));
                 }
             }
             reader.close();
@@ -63,6 +63,6 @@ public class Loader {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        return shapes;
+        return drawings;
     }
 }
