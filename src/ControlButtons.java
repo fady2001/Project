@@ -64,9 +64,8 @@ public class ControlButtons {
                 Graphics g = paintApp.getGraphics();
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, paintApp.getWidth(), paintApp.getHeight());
-                while (paintApp.undo())
-                    ;
                 paintApp.toggleRedoAll();
+                paintApp.undo();
             }
         });
 

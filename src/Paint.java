@@ -66,7 +66,8 @@ public class Paint extends Applet {
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
                     case ERASER:
-                        reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2, (y2 - 5) > 0 ? y2 - 5 : y2, 10, 10, Color.WHITE, true, false));
+                        reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2,
+                                (y2 - 5) > 0 ? y2 - 5 : y2, 10, 10, Color.WHITE, true, false));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));
@@ -129,7 +130,7 @@ public class Paint extends Applet {
         for (Drawing drawing : drawings) {
             drawing.draw(g2d);
         }
-        
+
         // Draw the current shape being dragged
         switch (shapeType) {
             case LINE:
@@ -187,26 +188,35 @@ public class Paint extends Applet {
         repaint();
     }
 
-    public boolean undo() {
-        if (!drawings.isEmpty()) {
+    public void undo() {
+        if (drawings.isEmpty())
+            return;
+        if (redoAll) {
+            while (!drawings.isEmpty()) {
+                undoStack.push(drawings.remove(drawings.size() - 1));
+            }
+            redoAll = false;
+        } else {
             undoStack.push(drawings.remove(drawings.size() - 1));
-            repaint();
-            return true;
         }
-        return false;
+        repaint();
     }
 
     public void redo() {
-        if (!undoStack.isEmpty()) {
-            if (redoAll) {
-                while (!undoStack.isEmpty()) {
-                    drawings.add(undoStack.pop());
-                }
-                redoAll = false;
-            } else
-                drawings.add(undoStack.pop());
-            repaint();
+        if (undoStack.isEmpty()) {
+            return;
         }
+
+        if (redoAll) {
+            while (!undoStack.isEmpty()) {
+                drawings.add(undoStack.pop());
+            }
+            redoAll = false;
+        } else {
+            drawings.add(undoStack.pop());
+        }
+
+        repaint();
     }
 
     public void toggleRedoAll() {
