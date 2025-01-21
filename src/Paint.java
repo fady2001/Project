@@ -32,6 +32,7 @@ public class Paint extends Applet {
     private Oval reusableOval = new Oval();
     private Rectangle reusableRectangle = new Rectangle();
     private Freehand reusableFreehand = new Freehand();
+    private Eraser reusableEraser = new Eraser();
 
     boolean dragged = false;
 
@@ -53,28 +54,20 @@ public class Paint extends Applet {
                 y2 = e.getY();
                 switch (shapeType) {
                     case LINE:
-                        // currentDrawing = new Line(x1, y1, x2, y2, color, filled, dotted);
                         reusableLine.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case OVAL:
-                        // currentDrawing = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2,
-                        // Math.abs(x2 - x1),
-                        // Math.abs(y2 - y1), color, filled, dotted);
                         reusableOval.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
                     case RECTANGLE:
-                        // currentDrawing = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 :
-                        // y2, Math.abs(x2 - x1),
-                        // Math.abs(y2 - y1), color, filled, dotted);
                         reusableRectangle.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2,
                                 Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
-                    // case ERASER:
-                    // currentDrawing = new Rectangle(x2, y2, 20, 20, Color.WHITE, true, false);
-                    // drawings.add(currentDrawing);
-                    // break;
+                    case ERASER:
+                        reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2, (y2 - 5) > 0 ? y2 - 5 : y2, 10, 10, Color.WHITE, true, false));
+                        break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));
                         break;
@@ -103,6 +96,10 @@ public class Paint extends Applet {
                             case RECTANGLE:
                                 drawings.add(reusableRectangle);
                                 reusableRectangle = new Rectangle();
+                                break;
+                            case ERASER:
+                                drawings.add(reusableEraser);
+                                reusableEraser = new Eraser();
                                 break;
                             case FREEHAND:
                                 drawings.add(reusableFreehand);
@@ -148,6 +145,11 @@ public class Paint extends Applet {
             case RECTANGLE:
                 if (reusableRectangle != null) {
                     reusableRectangle.draw(g2d);
+                }
+                break;
+            case ERASER:
+                if (reusableEraser != null) {
+                    reusableEraser.draw(g2d);
                 }
                 break;
             case FREEHAND:
