@@ -3,11 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ShapesButtons {
-    private Button lineBtn;
-    private Button ovalBtn;
-    private Button rectangleBtn;
-    private Button eraserBtn;
-    private Button freehandBtn;
+    private final Button lineBtn;
+    private final Button ovalBtn;
+    private final Button rectangleBtn;
+    private final Button eraserBtn;
+    private final Button freehandBtn;
 
     public ShapesButtons(){
         lineBtn = new Button("Line");

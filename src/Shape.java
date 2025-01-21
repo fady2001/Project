@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 public abstract class Shape extends Drawing {
     protected int x1;
@@ -17,6 +18,11 @@ public abstract class Shape extends Drawing {
         this.color = color;
         this.filled = filled;
         this.dotted = dotted;
+    }
+
+    public void setDimensions(int x1, int y1) {
+        this.x1 = x1;
+        this.y1 = y1;
     }
 }
 
@@ -45,6 +51,11 @@ class Line extends Shape {
     @Override
     public String serialize() {
         return "Line:" + x1 + ":" + y1 + ":" + x2 + ":" + y2 + ":" + color.getRGB() + ":" + filled + ":" + dotted;
+    }
+
+    public void setDimensions(int x2, int y2) {
+        this.x2 = x2;
+        this.y2 = y2;
     }
 }
 
@@ -82,6 +93,12 @@ class Oval extends Shape {
         return "Oval:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
                 + dotted;
     }
+
+    public void setDimensions(int x1, int y1, int x2, int y2, int width, int height) {
+        super.setDimensions(x1, y1);
+        width = Math.abs(x2 - x1);
+        height = Math.abs(y2 - y1);
+    }
 }
 
 class Rectangle extends Shape {
@@ -114,10 +131,16 @@ class Rectangle extends Shape {
         return "Rectangle:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
                 + dotted;
     }
+
+    public void setDimensions(int x1, int y1, int x2, int y2, int width, int height) {
+        super.setDimensions(x1, y1);
+        width = Math.abs(x2 - x1);
+        height = Math.abs(y2 - y1);
+    }
 }
 
 class Freehand extends Drawing {
-    private ArrayList<Point> points;
+    private final ArrayList<Point> points;
 
     public Freehand(ArrayList<Point> points, Color color) {
         super(color);
@@ -143,5 +166,25 @@ class Freehand extends Drawing {
         }
         sb.append(color.getRGB());
         return sb.toString();
+    }
+}
+
+
+class Image extends Drawing {
+    private BufferedImage img;
+    private String filePath;
+    public Image(BufferedImage img, String filePath) {
+        super(Color.BLACK);
+        this.img = img;
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        g.drawImage(img, 0, 0, Constants.MAX_X, Constants.MAX_Y, null);
+    }
+
+    @Override
+    public String serialize() {
+        return "Image:" + filePath;
     }
 }

@@ -51,7 +51,7 @@ public class Loader {
                         )
                     );
                 } else if (splits[0].equals("Freehand")) {
-                    ArrayList<Point> points = new ArrayList<Point>();
+                    ArrayList<Point> points = new ArrayList<>();
                     for (int i = 1; i < splits.length - 2; i += 2) {
                         points.add(new Point(Integer.parseInt(splits[i]), Integer.parseInt(splits[i + 1])));
                     }

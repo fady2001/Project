@@ -66,7 +66,7 @@ public class ControlButtons {
                 g.fillRect(0, 0, paintApp.getWidth(), paintApp.getHeight());
                 while (paintApp.undo())
                     ;
-                paintApp.setRedoAll(true);
+                paintApp.toggleRedoAll();
             }
         });
 

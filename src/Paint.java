@@ -18,7 +18,7 @@ public class Paint extends Applet {
     private final Stack<Drawing> undoStack = new Stack<>();
     private ArrayList<Drawing> drawings = new ArrayList<>();
     private Drawing currentDrawing = null;
-    private ArrayList<Point> freehandPoints = new ArrayList<>();
+    private final ArrayList<Point> freehandPoints = new ArrayList<>();
 
     private boolean filled = false;
     private boolean dotted = false;
@@ -27,7 +27,7 @@ public class Paint extends Applet {
 
     private boolean redoAll = false;
 
-    private Image bufferedImage = null;
+    private BufferedImage bufferedImage = null;
 
     ControlBar controlBar = new ControlBar(this);
 
@@ -75,6 +75,7 @@ public class Paint extends Applet {
             public void mouseReleased(MouseEvent e) {
                 if (shapeType == Constants.ShapeType.FREEHAND) {
                     drawings.add(new Freehand(freehandPoints, color));
+                    freehandPoints.clear();
                 } else if (currentDrawing != null) {
                     x2 = e.getX();
                     y2 = e.getY();
@@ -104,11 +105,9 @@ public class Paint extends Applet {
                 g.setColor(color);
                 g.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
-        } else if (currentDrawing != null) {
-            currentDrawing.draw((Graphics2D)g);
         }
-        if (bufferedImage != null) {
-            g.drawImage(bufferedImage, 0, 0, this);
+        if (currentDrawing != null) {
+            currentDrawing.draw((Graphics2D)g);
         }
     }
 
@@ -126,6 +125,34 @@ public class Paint extends Applet {
 
     public void setShape(Constants.ShapeType shapeType) {
         this.shapeType = shapeType;
+        setCurrentDrawing();
+    }
+
+    private void setCurrentDrawing() {
+        switch (shapeType) {
+            case LINE:
+                if (currentDrawing instanceof Line) {
+                    return;
+                }
+                currentDrawing = new Line(x1, y1, x2, y2, color, filled, dotted);
+                break;
+            case OVAL:
+                if (currentDrawing instanceof Oval) {
+                    return;
+                }
+                currentDrawing = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                        Math.abs(y2 - y1), color, filled, dotted);
+                break;
+            case RECTANGLE:
+                if (currentDrawing instanceof Oval) {
+                    return;
+                }
+                currentDrawing = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                        Math.abs(y2 - y1), color, filled, dotted);
+                break;
+            default:
+                break;
+        }
     }
 
     public ArrayList<Drawing> getDrawings() {
@@ -159,8 +186,8 @@ public class Paint extends Applet {
         }
     }
 
-    public void setRedoAll(boolean redoAll) {
-        this.redoAll = redoAll;
+    public void toggleRedoAll() {
+        redoAll = !redoAll;
     }
 
     public void saveAppletToImage(String filePath) {
@@ -187,7 +214,7 @@ public class Paint extends Applet {
             // Load the image from the file
             File inputFile = new File(filePath);
             bufferedImage = ImageIO.read(inputFile);
-
+            drawings.add(new Image(bufferedImage,filePath));
             // Repaint the applet
             repaint();
 
