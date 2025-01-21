@@ -1,9 +1,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 public abstract class Shape extends Drawing {
     protected int x1;
@@ -136,55 +133,5 @@ class Rectangle extends Shape {
         super.setDimensions(x1, y1);
         width = Math.abs(x2 - x1);
         height = Math.abs(y2 - y1);
-    }
-}
-
-class Freehand extends Drawing {
-    private final ArrayList<Point> points;
-
-    public Freehand(ArrayList<Point> points, Color color) {
-        super(color);
-        this.points = new ArrayList<>(points);
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-        g.setColor(color);
-        for (int i = 0; i < points.size() - 1; i++) {
-            Point p1 = points.get(i);
-            Point p2 = points.get(i + 1);
-            g.drawLine(p1.x, p1.y, p2.x, p2.y);
-        }
-
-    }
-
-    @Override
-    public String serialize() {
-        StringBuilder sb = new StringBuilder("Freehand:");
-        for (Point p : points) {
-            sb.append(p.x).append(":").append(p.y).append(":");
-        }
-        sb.append(color.getRGB());
-        return sb.toString();
-    }
-}
-
-
-class Image extends Drawing {
-    private BufferedImage img;
-    private String filePath;
-    public Image(BufferedImage img, String filePath) {
-        super(Color.BLACK);
-        this.img = img;
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-        g.drawImage(img, 0, 0, Constants.MAX_X, Constants.MAX_Y, null);
-    }
-
-    @Override
-    public String serialize() {
-        return "Image:" + filePath;
     }
 }

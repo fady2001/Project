@@ -211,11 +211,11 @@ public class Paint extends Applet {
 
     public void loadAppletFromImage(String filePath) {
         try {
-            // Load the image from the file
+
             File inputFile = new File(filePath);
             bufferedImage = ImageIO.read(inputFile);
             drawings.add(new Image(bufferedImage,filePath));
-            // Repaint the applet
+
             repaint();
 
             System.out.println("Applet loaded from image: " + inputFile.getAbsolutePath());
