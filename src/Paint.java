@@ -14,10 +14,10 @@ public class Paint extends Applet {
     private int x2;
     private int y2;
 
-    private Stack<Shape> undoStack = new Stack<Shape>();
-    private ArrayList<Shape> shapes = new ArrayList<Shape>();
+    private final Stack<Shape> undoStack = new Stack<>();
+    private ArrayList<Shape> shapes = new ArrayList<>();
     private Shape currentShape = null;
-    private ArrayList<Point> freehandPoints = new ArrayList<Point>();
+    private ArrayList<Point> freehandPoints = new ArrayList<>();
 
     private boolean filled = false;
     private boolean dotted = false;
@@ -74,7 +74,7 @@ public class Paint extends Applet {
             public void mouseReleased(MouseEvent e) {
                 if (shapeType == Constants.ShapeType.FREEHAND) {
                     shapes.add(new Freehand(freehandPoints, color));
-                    freehandPoints = new ArrayList<Point>();
+                    freehandPoints = new ArrayList<>();
                 } else if (currentShape != null) {
                     x2 = e.getX();
                     y2 = e.getY();
@@ -124,24 +124,8 @@ public class Paint extends Applet {
         this.color = color;
     }
 
-    public boolean isFilled() {
-        return filled;
-    }
-
-    public boolean isDotted() {
-        return dotted;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
     public void setShape(Constants.ShapeType shapeType) {
         this.shapeType = shapeType;
-    }
-
-    public Constants.ShapeType getShape() {
-        return shapeType;
     }
 
     public ArrayList<Shape> getShapes() {
@@ -154,7 +138,7 @@ public class Paint extends Applet {
     }
 
     public boolean undo() {
-        if (shapes.size() > 0) {
+        if (!shapes.isEmpty()) {
             undoStack.push(shapes.remove(shapes.size() - 1));
             repaint();
             return true;
@@ -162,19 +146,17 @@ public class Paint extends Applet {
         return false;
     }
 
-    public boolean redo() {
-        if (undoStack.size() > 0) {
+    public void redo() {
+        if (!undoStack.isEmpty()) {
             if (redoAll) {
-                while (undoStack.size() > 0) {
+                while (!undoStack.isEmpty()) {
                     shapes.add(undoStack.pop());
                 }
                 redoAll = false;
             } else
                 shapes.add(undoStack.pop());
             repaint();
-            return true;
         }
-        return false;
     }
 
     public void setRedoAll(boolean redoAll) {
@@ -213,16 +195,5 @@ public class Paint extends Applet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-        Paint app = new Paint();
-        Frame frame = new Frame();
-        app.init();
-        frame.add(app);
-        frame.setSize(Constants.MAX_X, Constants.MAX_Y);
-        frame.setVisible(true);
     }
 }

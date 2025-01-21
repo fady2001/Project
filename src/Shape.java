@@ -8,8 +8,8 @@ public abstract class Shape {
     private int x1;
     private int y1;
     private Color color;
-    boolean filled = false;
-    boolean dotted = false;
+    boolean filled;
+    boolean dotted;
     
     public abstract void draw(Graphics2D g);
     public abstract String serialize();
@@ -48,9 +48,9 @@ class Line extends Shape {
     @Override
     public void draw(Graphics2D g) {
         g.setColor(getColor());
-        if (dotted == false)
+        if (!dotted)
             g.drawLine(getX1(), getY1(), x2, y2);
-        else if (dotted = true) {
+        else {
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
             g.drawLine(getX1(), getY1(), x2, y2);
             g.setStroke(new BasicStroke());
@@ -68,7 +68,7 @@ class Freehand extends Shape {
 
     public Freehand(ArrayList<Point> points, Color color) {
         super(points.get(0).x, points.get(0).y, color, false,false);
-        this.points = new ArrayList<Point>(points);
+        this.points = new ArrayList<>(points);
     }
 
     @Override
@@ -106,11 +106,11 @@ class Oval extends Shape {
     public void draw(Graphics2D g) {
         System.out.println("Drawing oval: "+filled);
         g.setColor(getColor());
-        if (filled == false && dotted == false)
+        if (!filled && !dotted)
             g.drawOval(getX1(), getY1(), width, height);
-        else if (filled == true)
+        else if (filled)
             g.fillOval(getX1(), getY1(), width, height);
-        else if (dotted == true){
+        else {
             System.out.println("Dotted");
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
             g.drawOval(getX1(), getY1(), width, height);
@@ -139,11 +139,11 @@ class Rectangle extends Shape {
     @Override
     public void draw(Graphics2D g) {
         g.setColor(getColor());
-        if (filled == false && dotted == false)
+        if (!filled && !dotted)
             g.drawRect(getX1(), getY1(), width, height);
-        else if (filled == true)
+        else if (filled)
             g.fillRect(getX1(), getY1(), width, height);
-        else if (dotted == true){
+        else {
             System.out.println("Dotted");
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
             g.drawRect(getX1(), getY1(), width, height);
@@ -156,32 +156,3 @@ class Rectangle extends Shape {
         return "Rectangle:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
     }
 }
-
-// class RoundRectangle extends Rectangle {
-//     private int arcWidth;
-//     private int arcHeight;
-
-//     RoundRectangle(int x1, int y1, int width, int height, int arcWidth, int arcHeight, Color color, boolean filled, boolean dotted) {
-//         super(x1, y1, width, height, color, filled, dotted);
-//         this.arcWidth = arcWidth;
-//         this.arcHeight = arcHeight;
-//     }
-
-//     @Override
-//     public void draw(Graphics g) {
-//         g.setColor(getColor());
-//         if (filled == false && dotted == false)
-//             g.drawRoundRect(getX1(), getY1(), width, height, arcWidth, arcHeight);
-//         else if (filled = true)
-//             g.fillRoundRect(getX1(), getY1(), width, height, arcWidth, arcHeight);
-//         else if (dotted = true)
-//             System.out.println("Dotted");
-//     }
-
-//     @Override
-//     public String serialize() {
-//         return "RoundRectangle:" + getX1() + ":" + getY1() + ":" + width + ":" + height + ":" + arcWidth + ":" + arcHeight + ":" + getColor().getRGB()+":" + filled + ":" + dotted;
-//     }
-// }
-
-

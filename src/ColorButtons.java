@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ColorButtons {
-    private Button[] colorBtns;
+    private final Button[] colorBtns;
 
     public ColorButtons(){
         colorBtns = new Button[5];

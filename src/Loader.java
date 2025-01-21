@@ -13,49 +13,49 @@ public class Loader {
             Scanner reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String data = reader.nextLine();
-                String[] splitted = data.split(":");
-                if (splitted[0].equals("Line")) {
+                String[] splits = data.split(":");
+                if (splits[0].equals("Line")) {
                     shapes.add(
                         new Line(
-                            Integer.parseInt(splitted[1]), 
-                            Integer.parseInt(splitted[2]), 
-                            Integer.parseInt(splitted[3]), 
-                            Integer.parseInt(splitted[4]), 
-                            new Color(Integer.parseInt(splitted[5])), 
-                            Boolean.parseBoolean(splitted[6]), 
-                            Boolean.parseBoolean(splitted[7])
+                            Integer.parseInt(splits[1]),
+                            Integer.parseInt(splits[2]),
+                            Integer.parseInt(splits[3]),
+                            Integer.parseInt(splits[4]),
+                            new Color(Integer.parseInt(splits[5])),
+                            Boolean.parseBoolean(splits[6]),
+                            Boolean.parseBoolean(splits[7])
                         )
                     );
-                } else if (splitted[0].equals("Oval")) {
+                } else if (splits[0].equals("Oval")) {
                     shapes.add(
                         new Oval(
-                            Integer.parseInt(splitted[1]), 
-                            Integer.parseInt(splitted[2]), 
-                            Integer.parseInt(splitted[3]), 
-                            Integer.parseInt(splitted[4]), 
-                            new Color(Integer.parseInt(splitted[5])), 
-                            Boolean.parseBoolean(splitted[6]), 
-                            Boolean.parseBoolean(splitted[7])
+                            Integer.parseInt(splits[1]),
+                            Integer.parseInt(splits[2]),
+                            Integer.parseInt(splits[3]),
+                            Integer.parseInt(splits[4]),
+                            new Color(Integer.parseInt(splits[5])),
+                            Boolean.parseBoolean(splits[6]),
+                            Boolean.parseBoolean(splits[7])
                         )
                     );
-                } else if (splitted[0].equals("Rectangle")) {
+                } else if (splits[0].equals("Rectangle")) {
                     shapes.add(
                         new Rectangle(
-                            Integer.parseInt(splitted[1]), 
-                            Integer.parseInt(splitted[2]), 
-                            Integer.parseInt(splitted[3]), 
-                            Integer.parseInt(splitted[4]), 
-                            new Color(Integer.parseInt(splitted[5])), 
-                            Boolean.parseBoolean(splitted[6]), 
-                            Boolean.parseBoolean(splitted[7])
+                            Integer.parseInt(splits[1]),
+                            Integer.parseInt(splits[2]),
+                            Integer.parseInt(splits[3]),
+                            Integer.parseInt(splits[4]),
+                            new Color(Integer.parseInt(splits[5])),
+                            Boolean.parseBoolean(splits[6]),
+                            Boolean.parseBoolean(splits[7])
                         )
                     );
-                } else if (splitted[0].equals("Freehand")) {
+                } else if (splits[0].equals("Freehand")) {
                     ArrayList<Point> points = new ArrayList<Point>();
-                    for (int i = 1; i < splitted.length - 2; i += 2) {
-                        points.add(new Point(Integer.parseInt(splitted[i]), Integer.parseInt(splitted[i + 1])));
+                    for (int i = 1; i < splits.length - 2; i += 2) {
+                        points.add(new Point(Integer.parseInt(splits[i]), Integer.parseInt(splits[i + 1])));
                     }
-                    shapes.add(new Freehand(points, new Color(Integer.parseInt(splitted[splitted.length - 1]))));
+                    shapes.add(new Freehand(points, new Color(Integer.parseInt(splits[splits.length - 1]))));
                 }
             }
             reader.close();

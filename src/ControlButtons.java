@@ -9,17 +9,16 @@ import java.awt.event.ItemListener;
 import java.awt.CheckboxGroup;
 
 public class ControlButtons {
-    private Button undo;
-    private Button redo;
-    private Button clear;
-    private Button saveToImg;
-    private Button loadFromImg;
-    private Button saveToFile;
-    private Button loadFromFile;
+    private final Button undo;
+    private final Button redo;
+    private final Button clear;
+    private final Button saveToImg;
+    private final Button loadFromImg;
+    private final Button saveToFile;
+    private final Button loadFromFile;
 
-    private CheckboxGroup group;
-    private Checkbox filled;
-    private Checkbox dotted;
+    private final Checkbox filled;
+    private final Checkbox dotted;
 
     public ControlButtons(){
         undo = new Button("Undo");
@@ -28,8 +27,8 @@ public class ControlButtons {
         saveToImg = new Button("Save to Image");    
         loadFromImg = new Button("Load from Image");
         saveToFile = new Button("Save to File");
-        loadFromFile = new Button("Load from File"); 
-        group = new CheckboxGroup();
+        loadFromFile = new Button("Load from File");
+        CheckboxGroup group = new CheckboxGroup();
         filled = new Checkbox("Filled", group, true);
         dotted = new Checkbox("Dotted", group, false);
     }

@@ -1,8 +1,8 @@
 public class ControlBar {
-    private Paint paintApp;
-    private ShapesButtons shapesButtons;
-    private ControlButtons controlButtons;
-    private ColorButtons colorButtons;
+    private final Paint paintApp;
+    private final ShapesButtons shapesButtons;
+    private final ControlButtons controlButtons;
+    private final ColorButtons colorButtons;
 
     public ControlBar(Paint paintApp){
         this.paintApp = paintApp;
