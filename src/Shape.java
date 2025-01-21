@@ -8,7 +8,11 @@ public abstract class Shape extends Drawing {
     protected boolean filled;
     protected boolean dotted;
 
-    Shape(int x1, int y1, Color color, boolean filled, boolean dotted) {
+    public Shape() {
+        super(Color.BLACK);
+    }
+
+    public Shape(int x1, int y1, Color color, boolean filled, boolean dotted) {
         super(color);
         this.x1 = x1;
         this.y1 = y1;
@@ -17,15 +21,20 @@ public abstract class Shape extends Drawing {
         this.dotted = dotted;
     }
 
-    public void setDimensions(int x1, int y1) {
+    public void setProperties(int x1, int y1, Color color, boolean filled, boolean dotted) {
         this.x1 = x1;
         this.y1 = y1;
+        this.color = color;
+        this.filled = filled;
+        this.dotted = dotted;
     }
 }
 
 class Line extends Shape {
     private int x2;
     private int y2;
+
+    public Line() {}
 
     Line(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
@@ -50,7 +59,8 @@ class Line extends Shape {
         return "Line:" + x1 + ":" + y1 + ":" + x2 + ":" + y2 + ":" + color.getRGB() + ":" + filled + ":" + dotted;
     }
 
-    public void setDimensions(int x2, int y2) {
+    public void setProperties(int x1,int y1,int x2, int y2, Color color,boolean filled,boolean dotted) {
+        super.setProperties(x1, y1, color, filled, dotted);
         this.x2 = x2;
         this.y2 = y2;
     }
@@ -59,6 +69,8 @@ class Line extends Shape {
 class Oval extends Shape {
     private int width;
     private int height;
+
+    public Oval() {}
 
     Oval(int x1, int y1, int width, int height, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
@@ -91,16 +103,18 @@ class Oval extends Shape {
                 + dotted;
     }
 
-    public void setDimensions(int x1, int y1, int x2, int y2, int width, int height) {
-        super.setDimensions(x1, y1);
-        width = Math.abs(x2 - x1);
-        height = Math.abs(y2 - y1);
+    public void setProperties(int x1, int y1, int width, int height, Color color, boolean filled, boolean dotted) {
+        super.setProperties(x1, y1, color, filled, dotted);
+        this.width = width;
+        this.height = height;
     }
 }
 
 class Rectangle extends Shape {
     protected int width;
     protected int height;
+
+    public Rectangle() {}
 
     Rectangle(int x1, int y1, int width, int height, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
@@ -125,13 +139,12 @@ class Rectangle extends Shape {
 
     @Override
     public String serialize() {
-        return "Rectangle:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
-                + dotted;
+        return "Rectangle:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":" + dotted;
     }
 
-    public void setDimensions(int x1, int y1, int x2, int y2, int width, int height) {
-        super.setDimensions(x1, y1);
-        width = Math.abs(x2 - x1);
-        height = Math.abs(y2 - y1);
+    public void setProperties(int x1, int y1, int width, int height, Color color, boolean filled, boolean dotted) {
+        super.setProperties(x1, y1, color, filled, dotted);
+        this.width = width;
+        this.height = height;
     }
 }

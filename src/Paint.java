@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Stack;
 import javax.imageio.ImageIO;
-import java.awt.Point;
 
 public class Paint extends Applet {
     private int x1;
@@ -17,8 +16,6 @@ public class Paint extends Applet {
 
     private final Stack<Drawing> undoStack = new Stack<>();
     private ArrayList<Drawing> drawings = new ArrayList<>();
-    private Drawing currentDrawing = null;
-    private final ArrayList<Point> freehandPoints = new ArrayList<>();
 
     private boolean filled = false;
     private boolean dotted = false;
@@ -31,6 +28,13 @@ public class Paint extends Applet {
 
     ControlBar controlBar = new ControlBar(this);
 
+    private Line reusableLine = new Line();
+    private Oval reusableOval = new Oval();
+    private Rectangle reusableRectangle = new Rectangle();
+    private Freehand reusableFreehand = new Freehand();
+
+    boolean dragged = false;
+
     @Override
     public void init() {
         class MouseHandler extends MouseAdapter {
@@ -38,33 +42,41 @@ public class Paint extends Applet {
                 x1 = e.getX();
                 y1 = e.getY();
                 if (shapeType == Constants.ShapeType.FREEHAND) {
-                    freehandPoints.clear();
-                    freehandPoints.add(new Point(x1, y1));
+                    reusableFreehand.addPoint(new Point(x1, y1));
                 }
                 System.out.println("Mouse pressed at " + x1 + ", " + y1);
             }
 
             public void mouseDragged(MouseEvent e) {
+                dragged = true;
                 x2 = e.getX();
                 y2 = e.getY();
                 switch (shapeType) {
                     case LINE:
-                        currentDrawing = new Line(x1, y1, x2, y2, color, filled, dotted);
+                        // currentDrawing = new Line(x1, y1, x2, y2, color, filled, dotted);
+                        reusableLine.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case OVAL:
-                        currentDrawing = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                        // currentDrawing = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2,
+                        // Math.abs(x2 - x1),
+                        // Math.abs(y2 - y1), color, filled, dotted);
+                        reusableOval.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
                     case RECTANGLE:
-                        currentDrawing = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
+                        // currentDrawing = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 :
+                        // y2, Math.abs(x2 - x1),
+                        // Math.abs(y2 - y1), color, filled, dotted);
+                        reusableRectangle.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2,
+                                Math.abs(x2 - x1),
                                 Math.abs(y2 - y1), color, filled, dotted);
                         break;
-                    case ERASER:
-                        currentDrawing = new Rectangle(x2, y2, 20, 20, Color.WHITE, true, false);
-                        drawings.add(currentDrawing);
-                        break;
+                    // case ERASER:
+                    // currentDrawing = new Rectangle(x2, y2, 20, 20, Color.WHITE, true, false);
+                    // drawings.add(currentDrawing);
+                    // break;
                     case FREEHAND:
-                        freehandPoints.add(new Point(x2, y2));
+                        reusableFreehand.addPoint(new Point(x2, y2));
                         break;
                     default:
                         break;
@@ -74,13 +86,32 @@ public class Paint extends Applet {
 
             public void mouseReleased(MouseEvent e) {
                 if (shapeType == Constants.ShapeType.FREEHAND) {
-                    drawings.add(new Freehand(freehandPoints, color));
-                    freehandPoints.clear();
-                } else if (currentDrawing != null) {
-                    x2 = e.getX();
-                    y2 = e.getY();
-                    drawings.add(currentDrawing);
-                    currentDrawing = null;
+                    drawings.add(reusableFreehand);
+                    reusableFreehand = new Freehand();
+                } else {
+                    if (dragged) {
+                        dragged = false;
+                        switch (shapeType) {
+                            case LINE:
+                                drawings.add(reusableLine);
+                                reusableLine = new Line();
+                                break;
+                            case OVAL:
+                                drawings.add(reusableOval);
+                                reusableOval = new Oval();
+                                break;
+                            case RECTANGLE:
+                                drawings.add(reusableRectangle);
+                                reusableRectangle = new Rectangle();
+                                break;
+                            case FREEHAND:
+                                drawings.add(reusableFreehand);
+                                reusableFreehand = new Freehand();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
                 repaint();
             }
@@ -95,19 +126,37 @@ public class Paint extends Applet {
 
     @Override
     public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Draw all stored drawings
         for (Drawing drawing : drawings) {
-            drawing.draw((Graphics2D)g);
+            drawing.draw(g2d);
         }
-        if (shapeType == Constants.ShapeType.FREEHAND) {
-            for (int i = 0; i < freehandPoints.size() - 1; i++) {
-                Point p1 = freehandPoints.get(i);
-                Point p2 = freehandPoints.get(i + 1);
-                g.setColor(color);
-                g.drawLine(p1.x, p1.y, p2.x, p2.y);
-            }
-        }
-        if (currentDrawing != null) {
-            currentDrawing.draw((Graphics2D)g);
+        
+        // Draw the current shape being dragged
+        switch (shapeType) {
+            case LINE:
+                if (reusableLine != null) {
+                    reusableLine.draw(g2d);
+                }
+                break;
+            case OVAL:
+                if (reusableOval != null) {
+                    reusableOval.draw(g2d);
+                }
+                break;
+            case RECTANGLE:
+                if (reusableRectangle != null) {
+                    reusableRectangle.draw(g2d);
+                }
+                break;
+            case FREEHAND:
+                if (reusableFreehand != null) {
+                    reusableFreehand.draw(g2d);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -125,34 +174,6 @@ public class Paint extends Applet {
 
     public void setShape(Constants.ShapeType shapeType) {
         this.shapeType = shapeType;
-        setCurrentDrawing();
-    }
-
-    private void setCurrentDrawing() {
-        switch (shapeType) {
-            case LINE:
-                if (currentDrawing instanceof Line) {
-                    return;
-                }
-                currentDrawing = new Line(x1, y1, x2, y2, color, filled, dotted);
-                break;
-            case OVAL:
-                if (currentDrawing instanceof Oval) {
-                    return;
-                }
-                currentDrawing = new Oval((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
-                        Math.abs(y2 - y1), color, filled, dotted);
-                break;
-            case RECTANGLE:
-                if (currentDrawing instanceof Oval) {
-                    return;
-                }
-                currentDrawing = new Rectangle((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
-                        Math.abs(y2 - y1), color, filled, dotted);
-                break;
-            default:
-                break;
-        }
     }
 
     public ArrayList<Drawing> getDrawings() {
@@ -194,7 +215,7 @@ public class Paint extends Applet {
         try {
             // Create a BufferedImage with the size of the applet
             BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics = (Graphics2D)bufferedImage.getGraphics();
+            Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
 
             // Render the applet into the BufferedImage
             this.paint(graphics);
@@ -214,7 +235,7 @@ public class Paint extends Applet {
 
             File inputFile = new File(filePath);
             bufferedImage = ImageIO.read(inputFile);
-            drawings.add(new Image(bufferedImage,filePath));
+            drawings.add(new Image(bufferedImage, filePath));
 
             repaint();
 

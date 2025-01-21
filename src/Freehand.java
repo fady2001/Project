@@ -11,6 +11,19 @@ public class Freehand extends Drawing {
         this.points = new ArrayList<>(points);
     }
 
+    public Freehand() {
+        super(Color.BLACK);
+        points = new ArrayList<>();
+    }
+
+    public void addPoint(Point p) {
+        points.add(p);
+    }
+
+    public void clear() {
+        points.clear();
+    }
+
     @Override
     public void draw(Graphics2D g) {
         g.setColor(color);
