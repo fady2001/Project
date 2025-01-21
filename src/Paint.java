@@ -32,6 +32,8 @@ public class Paint extends Applet {
 
     @Override
     public void init() {
+        // make the screen white
+        setBackground(Color.WHITE);
         class MouseHandler extends MouseAdapter {
             public void mousePressed(MouseEvent e) {
                 x1 = e.getX();
@@ -112,12 +114,12 @@ public class Paint extends Applet {
         }
     }
 
-    public void setFilled(boolean filled) {
-        this.filled = filled;
+    public void toggleFilled() {
+        filled = !filled;
     }
 
-    public void setDotted(boolean dotted) {
-        this.dotted = dotted;
+    public void toggleDotted() {
+        dotted = !dotted;
     }
 
     public void setColor(Color color) {

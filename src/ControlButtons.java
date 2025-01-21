@@ -24,9 +24,8 @@ public class ControlButtons {
         loadFromImg = new Button("Load from Image");
         saveToFile = new Button("Save to File");
         loadFromFile = new Button("Load from File");
-        CheckboxGroup group = new CheckboxGroup();
-        filled = new Checkbox("Filled", group, true);
-        dotted = new Checkbox("Dotted", group, false);
+        filled = new Checkbox("Filled", false);
+        dotted = new Checkbox("Dotted", false);
     }
 
     public void add(Paint paintApp) {
@@ -144,26 +143,14 @@ public class ControlButtons {
         filled.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (filled.getState()) {
-                    System.out.println("Filled");
-                    paintApp.setFilled(true);
-                } else {
-                    System.out.println("Not Filled");
-                    paintApp.setFilled(false);
-                }
+                paintApp.toggleFilled();
             }
         });
 
         dotted.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (dotted.getState()) {
-                    System.out.println("Dotted");
-                    paintApp.setDotted(true);
-                } else {
-                    System.out.println("Not Dotted");
-                    paintApp.setDotted(false);
-                }
+                paintApp.toggleDotted();
             }
         });
     }
