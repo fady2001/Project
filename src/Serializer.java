@@ -17,7 +17,7 @@ public class Serializer {
         }
     }
 
-    public static void Serialize(String[] shapes) {
+    public static void Serialize(String[] shapes, String fileName) {
         fileCreator("shapes.txt");
         try {
             FileWriter writer = new FileWriter("shapes.txt");

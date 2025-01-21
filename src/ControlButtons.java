@@ -1,12 +1,8 @@
-import java.awt.Button;
-import java.awt.Checkbox;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.CheckboxGroup;
 
 public class ControlButtons {
     private final Button undo;
@@ -20,11 +16,11 @@ public class ControlButtons {
     private final Checkbox filled;
     private final Checkbox dotted;
 
-    public ControlButtons(){
+    public ControlButtons() {
         undo = new Button("Undo");
         redo = new Button("Redo");
         clear = new Button("Clear");
-        saveToImg = new Button("Save to Image");    
+        saveToImg = new Button("Save to Image");
         loadFromImg = new Button("Load from Image");
         saveToFile = new Button("Save to File");
         loadFromFile = new Button("Load from File");
@@ -33,7 +29,7 @@ public class ControlButtons {
         dotted = new Checkbox("Dotted", group, false);
     }
 
-    public void add(Paint paintApp){
+    public void add(Paint paintApp) {
         paintApp.add(undo);
         paintApp.add(redo);
         paintApp.add(clear);
@@ -45,7 +41,7 @@ public class ControlButtons {
         paintApp.add(dotted);
     }
 
-    public void buttonHandlers(Paint paintApp){
+    public void buttonHandlers(Paint paintApp) {
         undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +65,8 @@ public class ControlButtons {
                 Graphics g = paintApp.getGraphics();
                 g.setColor(Color.WHITE);
                 g.fillRect(0, 0, paintApp.getWidth(), paintApp.getHeight());
-                while(paintApp.undo());
+                while (paintApp.undo())
+                    ;
                 paintApp.setRedoAll(true);
             }
         });
@@ -78,35 +75,69 @@ public class ControlButtons {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Save");
-                paintApp.saveAppletAsImage();
+                FileDialog fileDialog = new FileDialog((Frame) null, "Save into");
+                fileDialog.setMode(FileDialog.SAVE);
+                fileDialog.setVisible(true);
+                String directory = fileDialog.getDirectory();
+                String file = fileDialog.getFile();
+                if (directory != null && file != null) {
+                    String filePath = directory + file;
+                    System.out.println("Selected file: " + filePath);
+                    paintApp.saveAppletToImage(filePath+".png");
+                }
             }
         });
 
         loadFromImg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Load");
-                paintApp.loadAppletFromImage();
+                FileDialog fileDialog = new FileDialog((Frame) null, "Select File to Load");
+                fileDialog.setMode(FileDialog.LOAD);
+                fileDialog.setVisible(true);
+                String directory = fileDialog.getDirectory();
+                String file = fileDialog.getFile();
+                if (directory != null && file != null) {
+                    String filePath = directory + file;
+                    System.out.println("Selected file: " + filePath);
+                    paintApp.loadAppletFromImage(filePath);
+                }
             }
         });
 
         loadFromFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Load");
-                paintApp.setShapes(Loader.fileLoader("shapes.txt"));
+                FileDialog fileDialog = new FileDialog((Frame) null, "Save into");
+                fileDialog.setMode(FileDialog.LOAD);
+                fileDialog.setVisible(true);
+                String directory = fileDialog.getDirectory();
+                String file = fileDialog.getFile();
+                if (directory != null && file != null) {
+                    String filePath = directory + file;
+                    System.out.println("Selected file: " + filePath);
+                    paintApp.setShapes(Loader.fileLoader(filePath+".txt"));
+                }
             }
         });
 
         saveToFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] shapes = new String[paintApp.getShapes().size()];
-                System.out.println("Serialize");
-                for (int i = 0; i < paintApp.getShapes().size(); i++) {
-                    shapes[i] = paintApp.getShapes().get(i).serialize();
+                FileDialog fileDialog = new FileDialog((Frame) null, "Select File to Load");
+                fileDialog.setMode(FileDialog.SAVE);
+                fileDialog.setVisible(true);
+                String directory = fileDialog.getDirectory();
+                String file = fileDialog.getFile();
+                if (directory != null && file != null) {
+                    String filePath = directory + file;
+                    System.out.println("Selected file: " + filePath);
+                    String[] shapes = new String[paintApp.getShapes().size()];
+                    System.out.println("Serialize");
+                    for (int i = 0; i < paintApp.getShapes().size(); i++) {
+                        shapes[i] = paintApp.getShapes().get(i).serialize();
+                    }
+                    Serializer.Serialize(shapes, filePath);
                 }
-                Serializer.Serialize(shapes);
             }
         });
 
@@ -116,8 +147,7 @@ public class ControlButtons {
                 if (filled.getState()) {
                     System.out.println("Filled");
                     paintApp.setFilled(true);
-                }
-                else {
+                } else {
                     System.out.println("Not Filled");
                     paintApp.setFilled(false);
                 }
@@ -130,8 +160,7 @@ public class ControlButtons {
                 if (dotted.getState()) {
                     System.out.println("Dotted");
                     paintApp.setDotted(true);
-                }
-                else {
+                } else {
                     System.out.println("Not Dotted");
                     paintApp.setDotted(false);
                 }

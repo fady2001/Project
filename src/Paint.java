@@ -163,7 +163,7 @@ public class Paint extends Applet {
         this.redoAll = redoAll;
     }
 
-    public void saveAppletAsImage() {
+    public void saveAppletToImage(String filePath) {
         try {
             // Create a BufferedImage with the size of the applet
             BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -173,7 +173,7 @@ public class Paint extends Applet {
             this.paint(graphics);
 
             // Save the BufferedImage as a PNG file
-            File outputFile = new File("appletImage.png");
+            File outputFile = new File(filePath);
             ImageIO.write(bufferedImage, "png", outputFile);
 
             System.out.println("Applet saved as image: " + outputFile.getAbsolutePath());
@@ -182,10 +182,10 @@ public class Paint extends Applet {
         }
     }
 
-    public void loadAppletFromImage() {
+    public void loadAppletFromImage(String filePath) {
         try {
             // Load the image from the file
-            File inputFile = new File("appletImage.png");
+            File inputFile = new File(filePath);
             bufferedImage = ImageIO.read(inputFile);
 
             // Repaint the applet
