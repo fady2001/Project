@@ -29,35 +29,35 @@ public class ShapesButtons {
         lineBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintApp.setShape(Constants.ShapeType.LINE);
+                paintApp.setShape(Constants.DrawingType.LINE);
             }
         });
 
         ovalBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintApp.setShape(Constants.ShapeType.OVAL);
+                paintApp.setShape(Constants.DrawingType.OVAL);
             }
         });
 
         rectangleBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintApp.setShape(Constants.ShapeType.RECTANGLE);
+                paintApp.setShape(Constants.DrawingType.RECTANGLE);
             }
         });
 
         eraserBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintApp.setShape(Constants.ShapeType.ERASER);
+                paintApp.setShape(Constants.DrawingType.ERASER);
             }
         });
 
         freehandBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paintApp.setShape(Constants.ShapeType.FREEHAND);
+                paintApp.setShape(Constants.DrawingType.FREEHAND);
             }
         });
     }

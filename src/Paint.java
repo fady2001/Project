@@ -20,7 +20,7 @@ public class Paint extends Applet {
     private boolean filled = false;
     private boolean dotted = false;
     private Color color = Color.BLACK;
-    private Constants.ShapeType shapeType = Constants.ShapeType.FREEHAND;
+    private Constants.DrawingType drawingType = Constants.DrawingType.FREEHAND;
 
     private boolean redoAll = false;
 
@@ -40,7 +40,7 @@ public class Paint extends Applet {
             public void mousePressed(MouseEvent e) {
                 x1 = e.getX();
                 y1 = e.getY();
-                if (shapeType == Constants.ShapeType.FREEHAND) {
+                if (drawingType == Constants.DrawingType.FREEHAND) {
                     reusableFreehand.addPoint(new Point(x1, y1));
                 }
                 System.out.println("Mouse pressed at " + x1 + ", " + y1);
@@ -50,7 +50,7 @@ public class Paint extends Applet {
                 dragged = true;
                 x2 = e.getX();
                 y2 = e.getY();
-                switch (shapeType) {
+                switch (drawingType) {
                     case LINE:
                         reusableLine.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
@@ -79,7 +79,7 @@ public class Paint extends Applet {
             public void mouseReleased(MouseEvent e) {
                     if (dragged) {
                         dragged = false;
-                        switch (shapeType) {
+                        switch (drawingType) {
                             case LINE:
                                 drawings.add(reusableLine);
                                 reusableLine = new Line();
@@ -125,7 +125,7 @@ public class Paint extends Applet {
         }
 
         // Draw the current shape being dragged
-        switch (shapeType) {
+        switch (drawingType) {
             case LINE:
                 if (reusableLine != null) {
                     reusableLine.draw(g2d);
@@ -168,8 +168,8 @@ public class Paint extends Applet {
         this.color = color;
     }
 
-    public void setShape(Constants.ShapeType shapeType) {
-        this.shapeType = shapeType;
+    public void setShape(Constants.DrawingType drawingType) {
+        this.drawingType = drawingType;
     }
 
     public ArrayList<Drawing> getDrawings() {
