@@ -55,17 +55,14 @@ public class Paint extends Applet {
                         reusableLine.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case OVAL:
-                        reusableOval.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, Math.abs(x2 - x1),
-                                Math.abs(y2 - y1), color, filled, dotted);
+                        reusableOval.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case RECTANGLE:
-                        reusableRectangle.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2,
-                                Math.abs(x2 - x1),
-                                Math.abs(y2 - y1), color, filled, dotted);
+                        reusableRectangle.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case ERASER:
                         reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2,
-                                (y2 - 5) > 0 ? y2 - 5 : y2, 10, 10, Color.WHITE, true, false));
+                                (y2 - 5) > 0 ? y2 - 5 : y2, 10, 10, Color.BLACK, true, false));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));
