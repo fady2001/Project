@@ -63,8 +63,8 @@ public class Paint extends Applet {
                         reusableRectangle.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case ERASER:
-                        reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2,
-                                (y2 - 5) > 0 ? y2 - 5 : y2, Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false));
+                        reusableEraser.addRectangle(new Rectangle(Math.min(x1,x2),
+                        Math.min(y1,y2), Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));

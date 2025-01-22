@@ -101,7 +101,7 @@ class Oval extends Shape {
     }
 
     public void setProperties(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
-        super.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, color, filled, dotted);
+        super.setProperties(Math.min(x1,x2), Math.min(y1,y2), color, filled, dotted);
         this.width = Math.abs(x2 - x1);
         this.height = Math.abs(y2 - y1);
     }
@@ -141,7 +141,7 @@ class Rectangle extends Shape {
     }
 
     public void setProperties(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
-        super.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, color, filled, dotted);
+        super.setProperties(Math.min(x1,x2), Math.min(y1,y2), color, filled, dotted);
         this.width = Math.abs(x2 - x1);
         this.height = Math.abs(y2 - y1);
     }
