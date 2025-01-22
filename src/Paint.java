@@ -9,9 +9,8 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 
 public class Paint extends Applet {
-    Image buffer;
+    private Image buffer;
 
-    
     private int x1;
     private int y1;
     private int x2;
@@ -65,7 +64,7 @@ public class Paint extends Applet {
                         break;
                     case ERASER:
                         reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2,
-                                (y2 - 5) > 0 ? y2 - 5 : y2, Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.BLACK, true, false));
+                                (y2 - 5) > 0 ? y2 - 5 : y2, Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));
