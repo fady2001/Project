@@ -1,2 +1,0 @@
-Image;E:\ITI Data science\Java\Project\appletImage.png
-Freehand;242;207;-16777216

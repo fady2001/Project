@@ -219,6 +219,8 @@ public class Paint extends Applet {
             BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
 
+            graphics.setColor(Color.WHITE);
+            graphics.fillRect(0, 0, getWidth(), getHeight());
             // Render the applet into the BufferedImage
             this.paint(graphics);
 
