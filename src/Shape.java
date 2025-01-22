@@ -34,7 +34,8 @@ class Line extends Shape {
     private int x2;
     private int y2;
 
-    public Line() {}
+    public Line() {
+    }
 
     Line(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
@@ -56,10 +57,10 @@ class Line extends Shape {
 
     @Override
     public String serialize() {
-        return "Line:" + x1 + ":" + y1 + ":" + x2 + ":" + y2 + ":" + color.getRGB() + ":" + filled + ":" + dotted;
+        return "Line;" + x1 + ";" + y1 + ";" + x2 + ";" + y2 + ";" + color.getRGB() + ";" + filled + ";" + dotted;
     }
 
-    public void setProperties(int x1,int y1,int x2, int y2, Color color,boolean filled,boolean dotted) {
+    public void setProperties(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
         super.setProperties(x1, y1, color, filled, dotted);
         this.x2 = x2;
         this.y2 = y2;
@@ -70,7 +71,8 @@ class Oval extends Shape {
     private int width;
     private int height;
 
-    public Oval() {}
+    public Oval() {
+    }
 
     Oval(int x1, int y1, int width, int height, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
@@ -95,11 +97,11 @@ class Oval extends Shape {
 
     @Override
     public String serialize() {
-        return "Oval:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":"
+        return "Oval;" + x1 + ";" + y1 + ";" + width + ";" + height + ";" + color.getRGB() + ";" + filled + ";"
                 + dotted;
     }
 
-    public void setProperties(int x1,int y1,int x2, int y2, Color color,boolean filled,boolean dotted) {
+    public void setProperties(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
         super.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, color, filled, dotted);
         this.width = Math.abs(x2 - x1);
         this.height = Math.abs(y2 - y1);
@@ -110,7 +112,8 @@ class Rectangle extends Shape {
     protected int width;
     protected int height;
 
-    public Rectangle() {}
+    public Rectangle() {
+    }
 
     Rectangle(int x1, int y1, int width, int height, Color color, boolean filled, boolean dotted) {
         super(x1, y1, color, filled, dotted);
@@ -134,10 +137,11 @@ class Rectangle extends Shape {
 
     @Override
     public String serialize() {
-        return "Rectangle:" + x1 + ":" + y1 + ":" + width + ":" + height + ":" + color.getRGB() + ":" + filled + ":" + dotted;
+        return "Rectangle;" + x1 + ";" + y1 + ";" + width + ";" + height + ";" + color.getRGB() + ";" + filled + ";"
+                + dotted;
     }
 
-    public void setProperties(int x1,int y1,int x2, int y2, Color color,boolean filled,boolean dotted) {
+    public void setProperties(int x1, int y1, int x2, int y2, Color color, boolean filled, boolean dotted) {
         super.setProperties((x2 - x1) > 0 ? x1 : x2, (y2 - y1) > 0 ? y1 : y2, color, filled, dotted);
         this.width = Math.abs(x2 - x1);
         this.height = Math.abs(y2 - y1);

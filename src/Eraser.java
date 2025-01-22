@@ -3,10 +3,11 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Eraser extends Drawing {
-    private final ArrayList<Rectangle> eraser = new ArrayList<>();
-    
-    public Eraser() {
+    private final ArrayList<Rectangle> eraser;
+
+    public Eraser(ArrayList<Rectangle> rectangles) {
         super(Color.WHITE);
+        this.eraser = rectangles;
     }
 
     @Override
@@ -18,15 +19,17 @@ public class Eraser extends Drawing {
 
     @Override
     public String serialize() {
-        StringBuilder sb = new StringBuilder("Eraser:");
+        StringBuilder sb = new StringBuilder("Eraser;");
         for (Rectangle r : eraser) {
-            sb.append(r.serialize()).append(":");
+            // get only the coordinates x and y of the rectangle
+            String[] splits = r.serialize().split(";");
+            sb.append(splits[1] + ';' + splits[2]).append(";");
         }
-        return sb.toString();
+        return sb.deleteCharAt(sb.length() - 1).toString();
     }
 
     public void addRectangle(Rectangle rectangle) {
         eraser.add(rectangle);
     }
-    
+
 }

@@ -5,9 +5,11 @@ import java.awt.image.BufferedImage;
 public class Image extends Drawing {
     private final BufferedImage img;
     private String filePath;
+
     public Image(BufferedImage img, String filePath) {
         super(Color.BLACK);
         this.img = img;
+        this.filePath = filePath;
     }
 
     @Override
@@ -17,6 +19,6 @@ public class Image extends Drawing {
 
     @Override
     public String serialize() {
-        return "Image:" + filePath;
+        return "Image;" + filePath;
     }
 }

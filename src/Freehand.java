@@ -33,9 +33,9 @@ public class Freehand extends Drawing {
 
     @Override
     public String serialize() {
-        StringBuilder sb = new StringBuilder("Freehand:");
+        StringBuilder sb = new StringBuilder("Freehand;");
         for (Point p : points) {
-            sb.append(p.x).append(":").append(p.y).append(":");
+            sb.append(p.x).append(";").append(p.y).append(";");
         }
         sb.append(color.getRGB());
         return sb.toString();

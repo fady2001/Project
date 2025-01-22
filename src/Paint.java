@@ -30,7 +30,7 @@ public class Paint extends Applet {
     private Oval reusableOval = new Oval();
     private Rectangle reusableRectangle = new Rectangle();
     private Freehand reusableFreehand = new Freehand();
-    private Eraser reusableEraser = new Eraser();
+    private Eraser reusableEraser = new Eraser(new ArrayList<>());
 
     boolean dragged = false;
 
@@ -62,7 +62,7 @@ public class Paint extends Applet {
                         break;
                     case ERASER:
                         reusableEraser.addRectangle(new Rectangle((x2 - 5) > 0 ? x2 - 5 : x2,
-                                (y2 - 5) > 0 ? y2 - 5 : y2, 10, 10, Color.BLACK, true, false));
+                                (y2 - 5) > 0 ? y2 - 5 : y2, Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.BLACK, true, false));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));
@@ -91,7 +91,7 @@ public class Paint extends Applet {
                                 break;
                             case ERASER:
                                 drawings.add(reusableEraser);
-                                reusableEraser = new Eraser();
+                                reusableEraser = new Eraser(new ArrayList<>());
                                 break;
                             case FREEHAND:
                                 drawings.add(reusableFreehand);

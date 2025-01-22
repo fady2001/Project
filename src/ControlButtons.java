@@ -77,7 +77,7 @@ public class ControlButtons {
                 if (directory != null && file != null) {
                     String filePath = directory + file;
                     System.out.println("Selected file: " + filePath);
-                    paintApp.saveAppletToImage(filePath+".png");
+                    paintApp.saveAppletToImage(filePath);
                 }
             }
         });
@@ -109,7 +109,7 @@ public class ControlButtons {
                 if (directory != null && file != null) {
                     String filePath = directory + file;
                     System.out.println("Selected file: " + filePath);
-                    paintApp.setDrawings(Loader.fileLoader(filePath+".txt"));
+                    paintApp.setDrawings(Loader.fileLoader(filePath));
                 }
             }
         });
