@@ -46,13 +46,12 @@ class Line extends Shape {
     @Override
     public void draw(Graphics2D g) {
         g.setColor(color);
-        if (!dotted)
-            g.drawLine(x1, y1, x2, y2);
-        else {
+        if (dotted && !filled) {
             g.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0));
             g.drawLine(x1, y1, x2, y2);
             g.setStroke(new BasicStroke());
-        }
+        } else
+            g.drawLine(x1, y1, x2, y2);
     }
 
     @Override
