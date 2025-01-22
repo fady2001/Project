@@ -68,7 +68,7 @@ public class Loader {
                     }
                     drawings.add(new Eraser(rectangles));
                 } else if (splits[0].equals("Image")) {
-                    drawings.add(new Image(ImageIO.read(new File(splits[1])), splits[1]));
+                    drawings.add(new ImageDrawing(ImageIO.read(new File(splits[1])), splits[1]));
 
                 }
             }

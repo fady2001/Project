@@ -9,6 +9,9 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 
 public class Paint extends Applet {
+    Image buffer;
+
+    
     private int x1;
     private int y1;
     private int x2;
@@ -111,6 +114,17 @@ public class Paint extends Applet {
         controlBar.add();
         controlBar.buttonHandlers();
     }
+
+    @Override
+    public void update(Graphics g){
+		//create offscreen image
+		buffer= createImage(getWidth(),getHeight());
+		//paint on the offscreen
+		paint(buffer.getGraphics());
+		//draw offscreen on the on screen
+		g.drawImage(buffer,0,0,null);	
+	}
+
 
     @Override
     public void paint(Graphics g) {
@@ -239,7 +253,7 @@ public class Paint extends Applet {
 
             File inputFile = new File(filePath);
             BufferedImage bufferedImage = ImageIO.read(inputFile);
-            drawings.add(new Image(bufferedImage, filePath));
+            drawings.add(new ImageDrawing(bufferedImage, filePath));
 
             repaint();
 
