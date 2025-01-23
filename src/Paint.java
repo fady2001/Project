@@ -15,8 +15,8 @@ public class Paint extends Applet {
     private int x2;
     private int y2;
 
-    private final Stack<Drawing> undoStack = new Stack<>();
-    private ArrayList<Drawing> drawings = new ArrayList<>();
+    private final Stack<Drawable> undoStack = new Stack<>();
+    private ArrayList<Drawable> drawables = new ArrayList<>();
 
     private boolean filled = false;
     private boolean dotted = false;
@@ -42,6 +42,7 @@ public class Paint extends Applet {
                 x1 = e.getX();
                 y1 = e.getY();
                 if (drawingType == Constants.DrawingType.FREEHAND) {
+                    reusableFreehand.setColor(color);
                     reusableFreehand.addPoint(new Point(x1, y1));
                 } else if (drawingType == Constants.DrawingType.ERASER) {
                     reusableEraser.addRectangle(
@@ -89,23 +90,23 @@ public class Paint extends Applet {
                     dragged = false;
                     switch (drawingType) {
                         case LINE:
-                            drawings.add(reusableLine);
+                            drawables.add(reusableLine);
                             reusableLine = new Line();
                             break;
                         case OVAL:
-                            drawings.add(reusableOval);
+                            drawables.add(reusableOval);
                             reusableOval = new Oval();
                             break;
                         case RECTANGLE:
-                            drawings.add(reusableRectangle);
+                            drawables.add(reusableRectangle);
                             reusableRectangle = new Rectangle();
                             break;
                         case ERASER:
-                            drawings.add(reusableEraser);
+                            drawables.add(reusableEraser);
                             reusableEraser = new Eraser(new ArrayList<>());
                             break;
                         case FREEHAND:
-                            drawings.add(reusableFreehand);
+                            drawables.add(reusableFreehand);
                             reusableFreehand = new Freehand();
                             break;
                         default:
@@ -138,8 +139,8 @@ public class Paint extends Applet {
         Graphics2D g2d = (Graphics2D) g;
 
         // Draw all stored drawings
-        for (Drawing drawing : drawings) {
-            drawing.draw(g2d);
+        for (Drawable drawable : drawables) {
+            drawable.draw(g2d);
         }
 
         // Draw the current shape being dragged
@@ -190,25 +191,25 @@ public class Paint extends Applet {
         this.drawingType = drawingType;
     }
 
-    public ArrayList<Drawing> getDrawings() {
-        return drawings;
+    public ArrayList<Drawable> getDrawings() {
+        return drawables;
     }
 
-    public void setDrawings(ArrayList<Drawing> drawings) {
-        this.drawings = drawings;
+    public void setDrawings(ArrayList<Drawable> drawables) {
+        this.drawables = drawables;
         repaint();
     }
 
     public void undo() {
-        if (drawings.isEmpty())
+        if (drawables.isEmpty())
             return;
         if (redoAll) {
-            while (!drawings.isEmpty()) {
-                undoStack.push(drawings.remove(drawings.size() - 1));
+            while (!drawables.isEmpty()) {
+                undoStack.push(drawables.remove(drawables.size() - 1));
             }
             redoAll = false;
         } else {
-            undoStack.push(drawings.remove(drawings.size() - 1));
+            undoStack.push(drawables.remove(drawables.size() - 1));
         }
         repaint();
     }
@@ -220,11 +221,11 @@ public class Paint extends Applet {
 
         if (redoAll) {
             while (!undoStack.isEmpty()) {
-                drawings.add(undoStack.pop());
+                drawables.add(undoStack.pop());
             }
             redoAll = false;
         } else {
-            drawings.add(undoStack.pop());
+            drawables.add(undoStack.pop());
         }
 
         repaint();
@@ -260,7 +261,7 @@ public class Paint extends Applet {
 
             File inputFile = new File(filePath);
             BufferedImage bufferedImage = ImageIO.read(inputFile);
-            drawings.add(new ImageDrawing(bufferedImage, filePath));
+            drawables.add(new ImageDrawing(bufferedImage, filePath));
 
             repaint();
 

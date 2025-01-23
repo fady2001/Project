@@ -1,12 +1,13 @@
 import java.awt.Color;
-import java.awt.Graphics2D;
 
-public abstract class Drawing {
+public abstract class GraphicElement implements Drawable {
     protected Color color;
     
-    public Drawing(Color color) {
+    public GraphicElement(Color color) {
         this.color = color;
     }
-    public abstract void draw(Graphics2D g);
-    public abstract String serialize();
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

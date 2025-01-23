@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class Eraser extends Drawing {
+public class Eraser extends GraphicElement {
     private final ArrayList<Rectangle> eraser;
 
     public Eraser(ArrayList<Rectangle> rectangles) {

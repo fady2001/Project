@@ -3,7 +3,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class Freehand extends Drawing {
+public class Freehand extends GraphicElement {
     private final ArrayList<Point> points;
 
     public Freehand(ArrayList<Point> points, Color color) {

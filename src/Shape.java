@@ -2,7 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public abstract class Shape extends Drawing {
+public abstract class Shape extends GraphicElement {
     protected int x1;
     protected int y1;
     protected boolean filled;

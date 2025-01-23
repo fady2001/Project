@@ -1,13 +1,11 @@
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class ImageDrawing extends Drawing {
+public class ImageDrawing implements Drawable {
     private final BufferedImage img;
     private final String filePath;
 
     public ImageDrawing(BufferedImage img, String filePath) {
-        super(Color.BLACK);
         this.img = img;
         this.filePath = filePath;
     }
