@@ -9,7 +9,6 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 
 public class Paint extends Applet {
-    private Image buffer;
 
     private int x1;
     private int y1;
@@ -44,6 +43,12 @@ public class Paint extends Applet {
                 y1 = e.getY();
                 if (drawingType == Constants.DrawingType.FREEHAND) {
                     reusableFreehand.addPoint(new Point(x1, y1));
+                } else if (drawingType == Constants.DrawingType.ERASER) {
+                    reusableEraser.addRectangle(
+                            new Rectangle(
+                                    x1 - (int) (0.5 * Constants.ERASER_SIZE),
+                                    y1 - (int) (0.5 * Constants.ERASER_SIZE),
+                                    Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false));
                 }
                 System.out.println("Mouse pressed at " + x1 + ", " + y1);
             }
@@ -63,8 +68,12 @@ public class Paint extends Applet {
                         reusableRectangle.setProperties(x1, y1, x2, y2, color, filled, dotted);
                         break;
                     case ERASER:
-                        reusableEraser.addRectangle(new Rectangle(Math.min(x1,x2),
-                        Math.min(y1,y2), Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false));
+                        reusableEraser.addRectangle(
+                                new Rectangle(
+                                        x2 - (int) (0.5 * Constants.ERASER_SIZE),
+                                        y2 - (int) (0.5 * Constants.ERASER_SIZE),
+                                        Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false
+                                ));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));
@@ -76,33 +85,33 @@ public class Paint extends Applet {
             }
 
             public void mouseReleased(MouseEvent e) {
-                    if (dragged) {
-                        dragged = false;
-                        switch (drawingType) {
-                            case LINE:
-                                drawings.add(reusableLine);
-                                reusableLine = new Line();
-                                break;
-                            case OVAL:
-                                drawings.add(reusableOval);
-                                reusableOval = new Oval();
-                                break;
-                            case RECTANGLE:
-                                drawings.add(reusableRectangle);
-                                reusableRectangle = new Rectangle();
-                                break;
-                            case ERASER:
-                                drawings.add(reusableEraser);
-                                reusableEraser = new Eraser(new ArrayList<>());
-                                break;
-                            case FREEHAND:
-                                drawings.add(reusableFreehand);
-                                reusableFreehand = new Freehand();
-                                break;
-                            default:
-                                break;
-                        }
+                if (dragged) {
+                    dragged = false;
+                    switch (drawingType) {
+                        case LINE:
+                            drawings.add(reusableLine);
+                            reusableLine = new Line();
+                            break;
+                        case OVAL:
+                            drawings.add(reusableOval);
+                            reusableOval = new Oval();
+                            break;
+                        case RECTANGLE:
+                            drawings.add(reusableRectangle);
+                            reusableRectangle = new Rectangle();
+                            break;
+                        case ERASER:
+                            drawings.add(reusableEraser);
+                            reusableEraser = new Eraser(new ArrayList<>());
+                            break;
+                        case FREEHAND:
+                            drawings.add(reusableFreehand);
+                            reusableFreehand = new Freehand();
+                            break;
+                        default:
+                            break;
                     }
+                }
                 repaint();
             }
         }
@@ -115,15 +124,14 @@ public class Paint extends Applet {
     }
 
     @Override
-    public void update(Graphics g){
-		//create offscreen image
-		buffer= createImage(getWidth(),getHeight());
-		//paint on the offscreen
-		paint(buffer.getGraphics());
-		//draw offscreen on the on screen
-		g.drawImage(buffer,0,0,null);	
-	}
-
+    public void update(Graphics g) {
+        // create offscreen image
+        Image buffer = createImage(getWidth(), getHeight());
+        // paint on the offscreen
+        paint(buffer.getGraphics());
+        // draw offscreen on the on screen
+        g.drawImage(buffer, 0, 0, null);
+    }
 
     @Override
     public void paint(Graphics g) {
