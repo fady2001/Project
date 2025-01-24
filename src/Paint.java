@@ -23,8 +23,6 @@ public class Paint extends Applet {
     private Color color = Color.BLACK;
     private Constants.DrawingType drawingType = Constants.DrawingType.FREEHAND;
 
-    private boolean redoAll = false;
-
     ControlBar controlBar = new ControlBar(this);
 
     private Line reusableLine = new Line();
@@ -186,6 +184,11 @@ public class Paint extends Applet {
         this.color = color;
     }
 
+    public void clear() {
+        drawables.add(new Rectangle(0, 0, Constants.MAX_X, Constants.MAX_Y, Color.WHITE, true, false));
+        repaint();
+    }
+
     public void setShape(Constants.DrawingType drawingType) {
         this.drawingType = drawingType;
     }
@@ -202,14 +205,8 @@ public class Paint extends Applet {
     public void undo() {
         if (drawables.isEmpty())
             return;
-        if (redoAll) {
-            while (!drawables.isEmpty()) {
-                undoStack.push(drawables.remove(drawables.size() - 1));
-            }
-            redoAll = false;
-        } else {
-            undoStack.push(drawables.remove(drawables.size() - 1));
-        }
+
+        undoStack.push(drawables.remove(drawables.size() - 1));
         repaint();
     }
 
@@ -217,21 +214,8 @@ public class Paint extends Applet {
         if (undoStack.isEmpty()) {
             return;
         }
-
-        if (redoAll) {
-            while (!undoStack.isEmpty()) {
-                drawables.add(undoStack.pop());
-            }
-            redoAll = false;
-        } else {
-            drawables.add(undoStack.pop());
-        }
-
+        drawables.add(undoStack.pop());
         repaint();
-    }
-
-    public void toggleRedoAll() {
-        redoAll = !redoAll;
     }
 
     public void saveAppletToImage(String filePath) {
