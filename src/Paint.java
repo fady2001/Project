@@ -73,8 +73,7 @@ public class Paint extends Applet {
                                 new Rectangle(
                                         x2 - (int) (0.5 * Constants.ERASER_SIZE),
                                         y2 - (int) (0.5 * Constants.ERASER_SIZE),
-                                        Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false
-                                ));
+                                        Constants.ERASER_SIZE, Constants.ERASER_SIZE, Color.WHITE, true, false));
                         break;
                     case FREEHAND:
                         reusableFreehand.addPoint(new Point(x2, y2));

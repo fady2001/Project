@@ -66,7 +66,7 @@ public class Loader {
                                             Integer.parseInt(splits[i + 1]),
                                             Constants.ERASER_SIZE,
                                             Constants.ERASER_SIZE,
-                                            Color.BLACK,
+                                            Color.WHITE,
                                             true,
                                             false));
                         }
